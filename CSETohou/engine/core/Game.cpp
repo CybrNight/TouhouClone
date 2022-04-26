@@ -32,6 +32,8 @@ void Game::render() {
 
 
 void Game::start() {
+    AssetManager::getAssetManager()->initSprite("sprPlayer");
+
     Mix_Music* music = AssetManager::getAssetManager()->getMusic("bgm01");
 
     if (Mix_PlayingMusic() == 0) {

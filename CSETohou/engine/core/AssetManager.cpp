@@ -48,17 +48,18 @@ Mix_Music* AssetManager::loadMusic(std::string musicName, std::string format)
 SDL_Texture* AssetManager::getSprite(std::string sprName)
 {
     auto temp = spriteCache.find(sprName);
-    SDL_Texture* tempTex = NULL;
     if (temp != spriteCache.end()) {
         std::cout << "AssetManager: Retrieved sprite (" << sprName << ") from spriteCache\n";
-        tempTex = (*temp).second;
+        return (*temp).second.get();
     }else {
         std::cout << "AssetManager: Did not find sprite (" << sprName << ") in spriteCache\n";
-        tempTex = this->loadSprite(sprName);
-        spriteCache.insert(std::make_pair(sprName, tempTex));
-        std::cout << "AssetManager: Added sprite (" << sprName << ") to spriteCache\n";
+        if (initSprite(sprName)) {
+            getSprite(sprName);
+        }
+        else {
+            std::cout << "AssetManager: Failed to add sprite (" << sprName << ") to spriteCache\n";
+        }
     }
-    return tempTex;
 }
 
 Mix_Music* AssetManager::getMusic(std::string musicName, std::string format) {
@@ -82,17 +83,21 @@ Mix_Chunk* AssetManager::getSFX(std::string sfxName)
     return nullptr;
 }
 
-int AssetManager::initSprite(std::string sprName)
+bool AssetManager::initSprite(std::string sprName)
 {
-    std::cout << "AssetManager: Initializing sprite (" << sprName << ")\n";
-    SDL_Texture* tempTex = this->loadSprite(sprName);
-    if (tempTex == NULL) {
-        return 1;
+    std::cout << "AssetManager: Initialzing sprite (" << sprName << ")\n";
+
+    std::shared_ptr<SDL_Texture> temp = std::shared_ptr<SDL_Texture>(loadSprite(sprName), SDL_DestroyTexture);
+
+    if (temp == NULL) {
+        std::cout << "AssetManager: Failed to load sprite (" << sprName << ")\n";
+        return false;
     }
-    
-    spriteCache.insert(std::make_pair(sprName, tempTex));
+
+    spriteCache.insert(std::make_pair(sprName, temp));
     std::cout << "AssetManager: Added sprite (" << sprName << ") to spriteCache\n";
-    return 0;
+
+    return true;
 }
 
 int AssetManager::initMusic(std::string musicName, std::string format)

@@ -5,6 +5,9 @@
 #include <map>
 #include <string>
 #include <memory>
+#include "Defs.h"
+
+using std::unique_ptr;
 
 class AssetManager
 {
@@ -12,7 +15,7 @@ class AssetManager
 
     std::shared_ptr<SDL_Renderer> renderer;
 
-    std::map<std::string, SDL_Texture*> spriteCache;
+    std::map<std::string, std::shared_ptr<SDL_Texture>> spriteCache;
     std::map<std::string, Mix_Music*> musicCache;
     std::map<std::string, Mix_Chunk*> sfxCache;
 
@@ -25,7 +28,7 @@ public:
     Mix_Music* getMusic(std::string musicName, std::string format = "ogg");
     Mix_Chunk* getSFX(std::string sfxName);
 
-    int initSprite(std::string sprName);
+    bool initSprite(std::string sprName);
     int initMusic(std::string musicName, std::string format = "ogg");
     int initSFX(std::string sfxName);
 
