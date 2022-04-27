@@ -8,6 +8,6 @@ Object::~Object() {
 
 }
 
-void Object::init() {
-	start();
+void Object::Init() {
+	Start();
 }

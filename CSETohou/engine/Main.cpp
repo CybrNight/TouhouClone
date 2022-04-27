@@ -13,13 +13,13 @@ and may not be redistributed without written permission.*/
 #include "AssetManager.h"
 
 //Starts up SDL and creates window
-bool init();
+bool Init();
 
 //Loads media
-bool loadMedia();
+bool LoadMedia();
 
 //Frees media and shuts down SDL
-void close();
+void Close();
 
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
@@ -27,24 +27,15 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 std::shared_ptr<SDL_Renderer> renderer = NULL;
 
-//Current displayed texture
-SDL_Texture* gTexture = NULL;
-
 Game* game;
-Handler* handler;
+ObjectHandler* handler;
 AssetManager* aManager;
 
-Mix_Music* music = NULL;
-
-Mix_Chunk* gScratch = NULL;
-Mix_Chunk* gHigh = NULL;
-Mix_Chunk* gMedium = NULL;
-Mix_Chunk* gLow = NULL;
-
-bool init()
+bool Init()
 {
     //Initialization flag
     bool success = true;
+
     //Initialize SDL
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
@@ -92,12 +83,8 @@ bool init()
     return success;
 }
 
-void close()
+void Close()
 {
-    //Free loaded image
-    SDL_DestroyTexture(gTexture);
-    gTexture = NULL;
-
     //Destroy window	
     SDL_DestroyWindow(gWindow);
     gWindow = NULL;
@@ -108,21 +95,21 @@ void close()
     SDL_Quit();
 }
 
-void tick() {
-    handler->tick();
-    game->tick();
+void Tick() {
+    handler->Tick();
+    game->Tick();
 }
 
-void input(SDL_KeyboardEvent& e) {
-    handler->input(e);
+void Input(SDL_KeyboardEvent& e) {
+    handler->Input(e);
 }
 
-void render() {
+void Render() {
     SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 255);
     SDL_RenderClear(renderer.get());
 
-    handler->render();
-    game->render();
+    handler->Render();
+    game->Render();
     //Clear screen
 
 
@@ -130,63 +117,64 @@ void render() {
     SDL_RenderPresent(renderer.get());
 }
 
-int main(int argc, char* args[])
-{
+int main(int argc, char* args[]) {
     //Start up SDL and create window
-    if (!init())
-    {
+    if (!Init()) {
         printf("Main: Failed to initialize!\n");
     }
-    else
-    {
+    else {
         //Main loop flag
         bool quit = false;
         //Event handler
         SDL_Event e;
 
         game = new Game(renderer);
-        handler = new Handler(renderer);
+        handler = new ObjectHandler(renderer);
         aManager = new AssetManager(renderer);
 
-        game->start();
-
-        //While application is running
-        while (!quit)
-        {
-            //Handle events on queue
-            while (SDL_PollEvent(&e) != 0)
+        if (game->Start()) {
+            //While application is running
+            while (!quit)
             {
-                //User requests quit
-                if (e.type == SDL_QUIT)
+                //Handle events on queue
+                while (SDL_PollEvent(&e) != 0)
                 {
-                    quit = true;
+                    //User requests quit
+                    if (e.type == SDL_QUIT)
+                    {
+                        quit = true;
+                    }
+
+
+                    if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
+                        Input(e.key);
+                    }
+
                 }
 
+                Uint64 start = SDL_GetPerformanceCounter();
 
-                if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
-                    input(e.key);
-                }
+                Tick();
+                Render();
 
+
+                Uint64 end = SDL_GetPerformanceCounter();
+
+                float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
+                //Cap to 60FPS
+                SDL_Delay(floor(16.666f - elapsedMS));
+                Time::DELTA_TIME = floor(16.666f - elapsedMS) / 1000;
+                Time::SECOND = Time::FRAMERATE;
             }
-
-            Uint64 start = SDL_GetPerformanceCounter();
-
-            tick();
-            render();
-
-
-            Uint64 end = SDL_GetPerformanceCounter();
-
-            float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
-            //Cap to 60FPS
-            SDL_Delay(floor(16.666f - elapsedMS));
-            Time::DELTA_TIME = floor(16.666f - elapsedMS) / 1000;
-            Time::SECOND = Time::FRAMERATE;
         }
+        else {
+            std::cout << "Main: Failed to start Game\n";
+        }
+
+
+        //Free resources and close SDL
+        Close();
+
+        return 0;
     }
-
-    //Free resources and close SDL
-    close();
-
-    return 0;
 }

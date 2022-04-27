@@ -6,10 +6,9 @@
 #include <iostream>
 #include <random>
 
-Handler* Handler::instance;
+ObjectHandler* ObjectHandler::instance;
 
-Handler::Handler(std::shared_ptr<SDL_Renderer> renderer)
-{
+ObjectHandler::ObjectHandler(std::shared_ptr<SDL_Renderer> renderer) {
     if (instance == NULL) {
         instance = this;
     }
@@ -20,37 +19,34 @@ Handler::Handler(std::shared_ptr<SDL_Renderer> renderer)
 }
 
 // Clean up handler
-Handler::~Handler()
-{
+ObjectHandler::~ObjectHandler() {
     objectProcessQueue.clear();
     std::cout << "Handler: Handler destroyed\n";
 }
 
 // THIS IS WHAT MANUALLY SYNCHRONIZING AN UPDATE LOOP LOOKS LIKE
-void
-Handler::tick()
-{
-    createAllQueuedObjects();
+void ObjectHandler::Tick() {
+    CreateAllQueuedObjects();
 
     // Check for objects that have been marked for deletion from last cycle
     // Must happen here before temp's state is modified or used by other objects
     for (size_t i = 0; i < objectProcessQueue.size(); i++) {
         Object* temp = objectProcessQueue.at(i);
-        if (temp->is_destroyed()) {
-            remove_object(temp);
+        if (temp->IsDestroyed()) {
+            RemoveObject(temp);
             objectProcessQueue.shrink_to_fit();
             continue;
         }
 
         // Update object if not deleted
-        temp->tick();
+        temp->Tick();
     }
 
     // Create new list from gameObjectList
     std::vector<GameObject*> collisionQueue(gameObjectList);
     for (size_t i = 0; i < collisionQueue.size(); i++) {
         GameObject* first = collisionQueue.at(i);
-        if (first == NULL || first->get_speed() <= 0)
+        if (first == NULL || first->GetSpeed() <= 0)
             continue;
 
         for (size_t j = 0; j < collisionQueue.size(); j++) {
@@ -64,29 +60,29 @@ Handler::tick()
                 continue;
 
             // qDebug() << myCollider->get_bounds();
-            SDL_FRect temp1 = first->get_bounds();
-            SDL_FRect temp2 = other->get_bounds();
+            SDL_FRect temp1 = first->GetBounds();
+            SDL_FRect temp2 = other->GetBounds();
 
             SDL_FPoint c1{ temp1.x + temp1.w / 2, temp1.y + temp1.h / 2 };
             SDL_FPoint c2{ temp2.x + temp2.w / 2, temp2.y + temp2.h / 2 };
             long distance = std::sqrt(std::pow((c2.x - c1.x), 2) + std::pow((c2.y - c1.y), 2));
-            long radii = (first->get_bounds().w + other->get_bounds().w) / 2;
+            long radii = (first->GetBounds().w + other->GetBounds().w) / 2;
             if (distance <= radii) {
-                if (other->get_speed() == 0) { // Call collision function on both
+                if (other->GetSpeed() == 0) { // Call collision function on both
                                                // objects if other is stopped
-                    first->collision(other);
-                    other->collision(first);
+                    first->Collision(other);
+                    other->Collision(first);
 
                 }
                 else { // If other is moving then it will it have it's turn later
-                    first->collision(other);
+                    first->Collision(other);
                 }
             }
         }
     }
 }
 
-void Handler::tick_second()
+void ObjectHandler::TickSecond()
 {
     // for (size_t i = 0; i < gameObjects.size(); i++){
     // GameObject* temp = gameObjects.at(i);
@@ -94,31 +90,27 @@ void Handler::tick_second()
     //}
 }
 
-void Handler::render()
+void ObjectHandler::Render()
 {
     for (size_t i = 0; i < gameObjectList.size(); i++) {
         GameObject* temp = gameObjectList.at(i);
         if (temp != NULL) {
-            temp->render(renderer.get());
-            temp->draw_bounds(renderer.get());
+            temp->Render(renderer.get());
+            temp->DrawBounds(renderer.get());
         }
     }
 }
 
-void
-Handler::input(SDL_KeyboardEvent& keyEvent)
-{
+void ObjectHandler::Input(SDL_KeyboardEvent& keyEvent) {
     for (size_t i = 0; i < inputProcessQueue.size(); i++) {
         IControllable* temp = inputProcessQueue.at(i);
         if (temp != NULL) {
-            temp->input(keyEvent);
+            temp->Input(keyEvent);
         }
     }
 }
 
-void
-Handler::instantiate(Object* obj)
-{
+void ObjectHandler::Instantiate(Object* obj) {
     bool uniqueID = true;
     unsigned long long result;
 
@@ -132,7 +124,7 @@ Handler::instantiate(Object* obj)
         std::uniform_int_distribution<unsigned long long> distr;
         result = distr(eng);
         for (size_t i = 0; i < objectProcessQueue.size(); i++) {
-            if (objectProcessQueue.at(i)->get_uuid() == result) {
+            if (objectProcessQueue.at(i)->GetUUID() == result) {
                 uniqueID = false;
                 break;
             }
@@ -143,12 +135,11 @@ Handler::instantiate(Object* obj)
     } while (!uniqueID);
 
     // Assign object with UUID for checking
-    obj->set_uuid(result);
+    obj->SetUUID(result);
     objectCreationQueue.push_back(obj);
 }
 
-void
-Handler::remove_object(std::vector<Object*>::iterator location)
+void ObjectHandler::RemoveObject(std::vector<Object*>::iterator location)
 {
     // Check if GameObject has components
     // Remove GameObject from objects list
@@ -166,8 +157,7 @@ Handler::remove_object(std::vector<Object*>::iterator location)
     objectProcessQueue.erase(location);
 }
 
-void
-Handler::createAllQueuedObjects()
+void ObjectHandler::CreateAllQueuedObjects()
 { // Setup all objects queued for
   // creation last cycle
     while (objectCreationQueue.size() > 0) {
@@ -176,8 +166,8 @@ Handler::createAllQueuedObjects()
         if (obj == NULL)
             return;
 
-        obj->init();
-        obj->start();
+        obj->Init();
+        obj->Start();
 
         // After initialzing object add it to process queue and remove it from
         // creation queue
@@ -185,8 +175,9 @@ Handler::createAllQueuedObjects()
 
 
         if (auto gameObject = dynamic_cast<GameObject*>(obj)) {
-            if (gameObject->get_sprite_path() != "none"){
-                gameObject->load_sprite(AssetManager::getAssetManager()->getSprite(gameObject->get_sprite_path()));
+            std::string name = gameObject->GetSpriteName();
+            if (name != "none") {
+                gameObject->LoadSprite(AssetManager::GetAssetManager()->GetCachedSprite(name));
             }
             gameObjectList.push_back(gameObject);
         }
@@ -199,30 +190,33 @@ Handler::createAllQueuedObjects()
     }
 }
 
-void
-Handler::remove_object(Object* obj)
+void ObjectHandler::RemoveWithTag(Tag tag)
 {
-    remove_object(find(objectProcessQueue.begin(), objectProcessQueue.end(), obj));
+    for (size_t i = 0; i < gameObjectList.size(); i++) {
+        GameObject* temp = gameObjectList.at(i);
+        if (temp->GetTag() == tag) {
+            Destroy(temp);
+        }
+    }
 }
 
-void
-Handler::remove_object(int index)
-{
-    remove_object(get_object(index));
+
+void ObjectHandler::RemoveObject(Object* obj) {
+    RemoveObject(find(objectProcessQueue.begin(), objectProcessQueue.end(), obj));
 }
 
-Object*
-Handler::get_object(int index)
-{
+void ObjectHandler::RemoveObject(int index){
+    RemoveObject(GetObject(index));
+}
+
+Object* ObjectHandler::GetObject(int index){
     return objectProcessQueue.at(index);
 }
 
-Object*
-Handler::get_object(Tag tag)
-{
+Object* ObjectHandler::GetObject(Tag tag){
     for (size_t i = 0; i < objectProcessQueue.size(); i++) {
         Object* temp = objectProcessQueue.at(i);
-        if (temp->get_tag() == tag) {
+        if (temp->GetTag() == tag) {
             return temp;
         }
     }
@@ -230,19 +224,15 @@ Handler::get_object(Tag tag)
     return NULL;
 }
 
-Object*
-get_object(Tag tag)
-{
-    return Handler::instance->get_object(tag);
+Object* GetObject(Tag tag){
+    return ObjectHandler::instance->GetObject(tag);
 }
 
-void destroy(Object* obj)
-{
-    obj->destroy();
+void Destroy(Object* obj){
+    obj->Destroy();
 }
 
-Object* instantiate(Object* obj)
-{
-    Handler::instance->instantiate(obj);
+Object* Instantiate(Object* obj){
+    ObjectHandler::instance->Instantiate(obj);
     return obj;
 }

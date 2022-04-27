@@ -6,8 +6,7 @@ namespace fs = std::filesystem;
 
 AssetManager* AssetManager::instance;
 
-SDL_Texture* AssetManager::loadSprite(std::string sprName)
-{
+SDL_Texture* AssetManager::LoadSprite(std::string sprName){
     // The final texture
     SDL_Texture* newTexture = NULL;
 
@@ -35,26 +34,25 @@ SDL_Texture* AssetManager::loadSprite(std::string sprName)
     return newTexture;
 }
 
-Mix_Music* AssetManager::loadMusic(std::string musicName, std::string format)
-{
+Mix_Music* AssetManager::LoadMusic(std::string musicName, std::string format){
     Mix_Music* music = Mix_LoadMUS(("resource/music/" + musicName + '.' + format).c_str());
     if (music == NULL) {
-        std::cout << "Failed to load music from resource/music/" << musicName <<'.' << format << '\n';
+        std::cout << "Failed to load music from resource/music/" << musicName << '.' << format << '\n';
     }
 
     return music;
 }
 
-SDL_Texture* AssetManager::getSprite(std::string sprName)
-{
+SDL_Texture* AssetManager::GetCachedSprite(std::string sprName){
     auto temp = spriteCache.find(sprName);
     if (temp != spriteCache.end()) {
         std::cout << "AssetManager: Retrieved sprite (" << sprName << ") from spriteCache\n";
         return (*temp).second.get();
-    }else {
+    }
+    else {
         std::cout << "AssetManager: Did not find sprite (" << sprName << ") in spriteCache\n";
-        if (initSprite(sprName)) {
-            getSprite(sprName);
+        if (CacheSprite(sprName)) {
+            GetCachedSprite(sprName);
         }
         else {
             std::cout << "AssetManager: Failed to add sprite (" << sprName << ") to spriteCache\n";
@@ -62,7 +60,7 @@ SDL_Texture* AssetManager::getSprite(std::string sprName)
     }
 }
 
-Mix_Music* AssetManager::getMusic(std::string musicName, std::string format) {
+Mix_Music* AssetManager::GetCachedMusic(std::string musicName, std::string format) {
     auto temp = musicCache.find(musicName);
     Mix_Music* tempMusic = NULL;
     if (temp != musicCache.end()) {
@@ -71,23 +69,22 @@ Mix_Music* AssetManager::getMusic(std::string musicName, std::string format) {
     }
     else {
         std::cout << "AssetManager: Did not find music (" << musicName << ") in musicCache\n";
-        tempMusic = loadMusic(musicName);
+        tempMusic = LoadMusic(musicName);
         musicCache.insert(std::make_pair(musicName, tempMusic));
         std::cout << "AssetManager: Added music (" << musicName << ") to musicCache\n";
-    }   
+    }
     return tempMusic;
 }
 
-Mix_Chunk* AssetManager::getSFX(std::string sfxName)
-{
+Mix_Chunk* AssetManager::GetCachedSFX(std::string sfxName){
     return nullptr;
 }
 
-bool AssetManager::initSprite(std::string sprName)
-{
+bool AssetManager::CacheSprite(std::string sprName){
+
     std::cout << "AssetManager: Initialzing sprite (" << sprName << ")\n";
 
-    std::shared_ptr<SDL_Texture> temp = std::shared_ptr<SDL_Texture>(loadSprite(sprName), SDL_DestroyTexture);
+    std::shared_ptr<SDL_Texture> temp = std::shared_ptr<SDL_Texture>(LoadSprite(sprName), SDL_DestroyTexture);
 
     if (temp == NULL) {
         std::cout << "AssetManager: Failed to load sprite (" << sprName << ")\n";
@@ -100,28 +97,25 @@ bool AssetManager::initSprite(std::string sprName)
     return true;
 }
 
-int AssetManager::initMusic(std::string musicName, std::string format)
-{
+bool AssetManager::CacheMusic(std::string musicName, std::string format){
     std::cout << "AssetManager: Initializing music (" << musicName << ")\n";
-    Mix_Music* tempMusic = loadMusic(musicName, format);
+    Mix_Music* tempMusic = LoadMusic(musicName, format);
     if (tempMusic == NULL) {
-        return 1;
+        return false;
     }
 
     musicCache.insert(std::make_pair(musicName, tempMusic));
     std::cout << "AssetManager: Added sprite (" << musicName << ") to spriteCache\n";
-    return 0;
+    return true;
 }
 
-void AssetManager::clearCache()
-{
-    clearSpriteCache();
-    clearMusicCache();
-    clearSFXCache();
+void AssetManager::clearCache(){
+    ClearSpriteCache();
+    ClearMusicCache();
+    ClearSFXCache();
 }
 
-AssetManager::AssetManager(std::shared_ptr<SDL_Renderer> renderer)
-{
+AssetManager::AssetManager(std::shared_ptr<SDL_Renderer> renderer){
     this->renderer = renderer;
     if (instance == NULL) {
         instance = this;
@@ -129,7 +123,6 @@ AssetManager::AssetManager(std::shared_ptr<SDL_Renderer> renderer)
 }
 
 
-AssetManager::~AssetManager()
-{
+AssetManager::~AssetManager(){
     clearCache();
 }

@@ -22,24 +22,10 @@ struct Time {
 
 };
 
-struct TextureDeleter
-{
-	void operator()(SDL_Texture* tp) {
-		SDL_DestroyTexture(tp);
-	}
-};
-
-inline float clamp(float value, float min, float max) {
+inline float Clamp(float value, float min, float max) {
 	if (value < min)
 		return min;
 	if (value > max)
 		return max;
 	return value;
 }
-
-struct sdl_deleter
-{
-	void operator()(SDL_Window* p) const { SDL_DestroyWindow(p); }
-	void operator()(SDL_Renderer* p) const { SDL_DestroyRenderer(p); }
-	void operator()(SDL_Texture* p) const { SDL_DestroyTexture(p); }
-};

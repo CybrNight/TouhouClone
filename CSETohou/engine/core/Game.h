@@ -17,12 +17,12 @@ public:
     ~Game(){}
 
     // Called every time the window is re-drawn
-    void render();
+    void Render();
     
     // Called every frame
-    void tick();
+    void Tick();
 
-    void start();
-    bool loadGameAssets(AssetManager* aManager);
+    bool Start();
+    bool LoadGameAssets();
 
 };

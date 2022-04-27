@@ -8,13 +8,13 @@ BurstEnemy::BurstEnemy(float x, float y, float direction) : Enemy(x, y), GameObj
     width = 24;
     height = 24;
     startY = y;
-    set_direction(direction);
+    SetDirection(direction);
     bulletColor = SDL_Color{0, 255, 255};
     sprName = "sprBurstEnemy";
 }
 
-void BurstEnemy::start(){
-    speed = 5;
+void BurstEnemy::Start(){
+    speed = 3;
     rotation = 0;
     health = 1;
     shootTimer = 0;
@@ -22,20 +22,19 @@ void BurstEnemy::start(){
     counter = 0;
 }
 
-void BurstEnemy::collision(GameObject* other){
-    if (other->get_tag() == Tag::ObjectPlayerBullet){
-        ::destroy(other);
+void BurstEnemy::Collision(GameObject* other){
+    if (other->GetTag() == Tag::ObjectPlayerBullet){
+        ::Destroy(other);
     }
 }
 
-void BurstEnemy::tick(){
+void BurstEnemy::Tick(){
     rotation += 5;
-    move();
+    Move();
 
     if (enemyState == EnemyState::Warmup){
-        if (get_y() >= startY + GRID_SIZE * 4) {
-            speed = 0;
-            set_enemy_state(EnemyState::Attack);
+        if (GetY() >= startY + GRID_SIZE * 2) {
+            SetEnemyState(EnemyState::Attack);
         }
     }
 
@@ -46,17 +45,25 @@ void BurstEnemy::tick(){
             if (Player::get_player() == NULL)
                 return;
 
-            distX = Player::get_player()->get_x()-get_x();
-            distY = -(Player::get_player()->get_y()-get_y());
+            distX = Player::get_player()->GetX()-GetX();
+            distY = -(Player::get_player()->GetY()-GetY());
 
             angle = std::atan2(distY, distX) * 180/M_PI;
 
             for (int i = 0; i < 180; i+=10){
                  float x = std::cos(i * M_PI/180) * width/2;
                  float y = std::sin(i * M_PI/180) * height/2;
-                 instantiate(new EnemyBullet(get_x() + x, get_y() + y, SDL_Color{0, 255, 255}, std::rand() % 10 + 5, angle));
+                 Instantiate(new EnemyBullet(GetX() + x, GetY() + y, SDL_Color{0, 255, 255}, std::rand() % 10 + 5, angle));
             }
-            destroy();
+            Destroy();
+        }
+
+        if (health <= 0) {
+            Destroy();
+
+            for (int i = 0; i < 360; i += 20) {
+                Instantiate(new EnemyBullet(GetCenterX(), GetCenterY(), SDL_Color{0, 255, 255}, 4, i));
+            }
         }
     }
 

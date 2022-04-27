@@ -39,63 +39,63 @@ protected:
     unsigned long long uuid;
     bool destroyed;
 
-    void clamp_x();
-    void clamp_y();
-    void clamp_position(char xy=' ');
+    void ClampX();
+    void ClampY();
+    void ClampPosition(char xy=' ');
 
 public:
 
-    virtual void init();
-    virtual void render(SDL_Renderer* renderer);
-    virtual void start() = 0;
-    virtual void tick() = 0;
-    virtual void tick_second(){}
-    virtual void collision(GameObject* other) {}
+    virtual void Init();
+    virtual void Render(SDL_Renderer* renderer);
+    virtual void Start() = 0;
+    virtual void Tick() = 0;
+    virtual void TickSecond(){}
+    virtual void Collision(GameObject* other) {}
 
     /** Move with GameObject speed and direction
-     * @brief move
+     * @brief Move
      */
-    virtual void move();
-    void destroy_outside();
+    virtual void Move();
+    virtual void DestroyOutside();
 
     /** Move with custom speed and direction
-     * @brief move
+     * @brief Move
      * @param speed
      * @param direction
      */
-    void move(float speed, float direction);
+    void Move(float speed, float direction);
 
     /**
-     * @brief get_bounds
+     * @brief GetBounds
      * @return QRectF with GameObject dimensions
      */
-    virtual SDL_FRect get_bounds() const;
-    virtual void draw_bounds(SDL_Renderer* renderer);
+    virtual SDL_FRect GetBounds() const;
+    virtual void DrawBounds(SDL_Renderer* renderer);
 
     GameObject(float x, float y, Tag id, float width = 0, float height = 0);
     virtual ~GameObject() = 0;
 
-    inline float get_x() const {return x;}
-    inline float get_y() const { return y; }
-    inline float get_center_x() const{return get_x() + width / 2; }
-    inline float get_center_y() const {return get_y() + height / 2; }
-    inline float get_speed() const {return speed;}
-    inline float get_direction() const {return direction;}
-    inline float get_width() const {return width;}
-    inline float get_height() const {return height;}
-    inline float get_rotation() const {return rotation; }
-    inline std::string get_sprite_path() {return sprName;}
+    inline float GetX() const {return x;}
+    inline float GetY() const { return y; }
+    inline float GetCenterX() const{return x + width / 2; }
+    inline float GetCenterY() const {return y + height / 2; }
+    inline float GetSpeed() const {return speed;}
+    inline float GetDirection() const {return direction;}
+    inline float GetWidth() const {return width;}
+    inline float GetHeight() const {return height;}
+    inline float GetRotation() const {return rotation; }
+    inline std::string GetSpriteName() {return sprName;}
     
-    void load_sprite(SDL_Texture* sprite);
-    inline void set_x(float x) {this->x = x;}
-    inline void set_y(float y) { this->y = y;}
-    inline void set_speed(float speed) {this->speed = speed;}
-    inline void set_direction(float direction) {this->direction = direction;}
-    inline void set_width(float width) {this->width = width;}
-    inline void set_height(float height) {this->height = height;}
-    inline void set_rotation(float rotation){ this->rotation = rotation; };
+    void LoadSprite(SDL_Texture* sprite);
+    inline void SetX(float x) {this->x = x;}
+    inline void SetY(float y) { this->y = y;}
+    inline void SetSpeed(float speed) {this->speed = speed;}
+    inline void SetDirection(float direction) {this->direction = direction;}
+    inline void SetWidth(float width) {this->width = width;}
+    inline void SetHeight(float height) {this->height = height;}
+    inline void SetRotation(float rotation){ this->rotation = rotation; };
     bool operator==(GameObject* other);
 };
 
-inline void destroy(GameObject* obj) { obj->destroy(); }
+inline void Destroy(GameObject* obj) { obj->Destroy(); }
 //inline void instantiate(GameObject* obj) { Handler::instance->instantiate(obj); }

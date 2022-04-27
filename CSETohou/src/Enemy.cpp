@@ -1,21 +1,22 @@
 #include "Enemy.h"
 #include "ObjectHandler.h"
 
+
 Enemy::Enemy(float x, float y): GameObject(x, y, Tag::ObjectEnemy), Object(Tag::ObjectEnemy)
 {
-
+    
 }
 
-void Enemy::init(){
+void Enemy::Init(){
     shootTimer = 0;
     fireRate = 15;
     canShoot = false;
     shootTimer = 0;
     enemyState = EnemyState::Warmup;
-    start();
+    Start();
 }
 
-void Enemy::start()
+void Enemy::Start()
 {
 
 }
@@ -24,6 +25,6 @@ Enemy::~Enemy(){
 
 }
 
-void Enemy::damage(){
+void Enemy::Damage(){
     set_health(get_health()-1);
 }

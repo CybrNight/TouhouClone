@@ -14,13 +14,13 @@ class EnemySpawner: public virtual Object
     std::vector<GameObject*> enemyQueue;
     std::vector<GameObject*> activeEnemies;
 
-    void generate_wave();
+    void GenerateWave();
 
 
 protected:
-    void start();
-    void tick();
-    void tick_second();
+    void Start();
+    void Tick();
+    void TickSecond();
 
 public:
     EnemySpawner();

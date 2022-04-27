@@ -6,12 +6,12 @@
 //USE ME FOR TESTING NEW ENEMY IDEAS!!! DUPLICATE AND REFACTOR WHEN DONE!!!
 TestEnemy::TestEnemy(float x, float y, float direction) : Enemy(x, y), GameObject(x, y, Tag::ObjectEnemy), Object(Tag::ObjectEnemy)
 {
-    set_direction(direction);
+    SetDirection(direction);
     distance = MIN_Y + (std::rand() % 4 + 1) * GRID_SIZE*0.8125f;
     bulletColor = {255, 255, 0};
 }
 
-void TestEnemy::start(){
+void TestEnemy::Start(){
     fireRate = 10;
     health = 5;
     speed = 3;
@@ -20,19 +20,19 @@ void TestEnemy::start(){
 }
 
 //Here is an example of how to use a counter variable to write an AI pattern
-void TestEnemy::tick(){
+void TestEnemy::Tick(){
     if (enemyState == EnemyState::Warmup){
-        GameObject::move();
+        GameObject::Move();
         if (y < distance && counter == 0){
             speed = 5;
             //this->set_direction(270);
         }else{
-            set_enemy_state(EnemyState::Attack);
+            SetEnemyState(EnemyState::Attack);
         }
     }
 
     if (enemyState == EnemyState::Attack){
-        move();
+        Move();
         counter ++;
         shootTimer ++;
 
@@ -42,15 +42,15 @@ void TestEnemy::tick(){
 
 
         if (shootTimer >= 60/fireRate && canShoot){
-            instantiate(new EnemyBullet(x, y, bulletColor, 200, -135, width));
-            instantiate(new EnemyBullet(x, y, bulletColor, 200, -90, width));
-            instantiate(new EnemyBullet(x, y, bulletColor, 200, -45, width));
-                    
-            instantiate(new EnemyBullet(x, y, bulletColor, 200, -30, width));
-            instantiate(new EnemyBullet(x, y, bulletColor, 200, -60, width));
-       
-            instantiate(new EnemyBullet(x, y, bulletColor, 200, -120, width));
-            instantiate(new EnemyBullet(x, y, bulletColor, 200, -150, width));
+            Instantiate(new EnemyBullet(x, y, bulletColor, 200, -135, width));
+            Instantiate(new EnemyBullet(x, y, bulletColor, 200, -90, width));
+            Instantiate(new EnemyBullet(x, y, bulletColor, 200, -45, width));
+                   
+            Instantiate(new EnemyBullet(x, y, bulletColor, 200, -30, width));
+            Instantiate(new EnemyBullet(x, y, bulletColor, 200, -60, width));
+            
+            Instantiate(new EnemyBullet(x, y, bulletColor, 200, -120, width));
+            Instantiate(new EnemyBullet(x, y, bulletColor, 200, -150, width));
 
 
             shootTimer = 0;
@@ -58,30 +58,30 @@ void TestEnemy::tick(){
     }
 
     if (enemyState == EnemyState::Retreat){
-        GameObject::move();
+        GameObject::Move();
         direction = 90;
         speed = 10;
 
-        destroy_outside();
+        DestroyOutside();
     }
 
-    clamp_x();
+    ClampX();
 }
 
-void TestEnemy::collision(GameObject* other){
-    if (other->get_tag() == Tag::ObjectPlayerBullet){
+void TestEnemy::Collision(GameObject* other){
+    if (other->GetTag() == Tag::ObjectPlayerBullet){
         health --;
 
         if (health == 0){
             for (int i = 0; i < 360; i += 10){
-                instantiate(new EnemyBullet(x, y, bulletColor, 5, i));
+                Instantiate(new EnemyBullet(x, y, bulletColor, 5, i));
             }
-            destroy();
+            Destroy();
         }
     }
 }
 
-void TestEnemy::move()
+void TestEnemy::Move()
 {
     float c = std::cos(direction * M_PI/180);
     float s = std::sin(direction * M_PI/180);

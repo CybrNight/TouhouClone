@@ -26,15 +26,16 @@ protected:
     bool canShoot = false;
     SDL_Color bulletColor = SDL_Color{255, 0 ,0};
 
+
 public:
     Enemy(float x, float y);
     virtual ~Enemy() = 0;
-    virtual void init();
-    void damage();
-    void start();
+    virtual void Init();
+    void Damage();
+    void Start();
 
     inline void set_can_shoot(bool canShoot) {this->canShoot = canShoot;}
-    inline void set_enemy_state(EnemyState enemyState) {this->enemyState = enemyState;}
+    inline void SetEnemyState(EnemyState enemyState) {this->enemyState = enemyState;}
     inline void set_health(float health){this->health = health;}
 
     inline float get_health(){return health;}

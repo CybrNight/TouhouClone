@@ -12,17 +12,17 @@ public:
     IControllable();
     ~IControllable(){};
 
-    //Called every frame by Handler. Passes input to key_press() and key_held()
-    void input(SDL_KeyboardEvent& event);
+    //Called every frame by Handler. Passes input to KeyPress() and KeyHeld()
+    void Input(SDL_KeyboardEvent& event);
 
     //Called the frame a key is pressed
-    virtual void key_press(SDL_Keycode key) = 0;
+    virtual void KeyPress(SDL_Keycode key) = 0;
 
     //Called during repeat key events
-    virtual void key_held(SDL_Keycode key) = 0;
+    virtual void KeyHeld(SDL_Keycode key) = 0;
 
     //Called the frame a key is released
-    virtual void key_release(SDL_Keycode key) = 0;
+    virtual void KeyRelease(SDL_Keycode key) = 0;
 };
 
 #endif // CONTROLLABLE_H

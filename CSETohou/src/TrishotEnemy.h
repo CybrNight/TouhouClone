@@ -12,11 +12,11 @@ class TrishotEnemy : public virtual Enemy
     float frequency = 6;
 
 protected:
-    void tick();
-    void start();
+    void Tick();
+    void Start();
 public:
     TrishotEnemy(float x, float y, float direction = 270);
     ~TrishotEnemy(){std::cout << "Destroyed TrishotEnemy\n";}
 
-    void move();
+    void Move();
 };

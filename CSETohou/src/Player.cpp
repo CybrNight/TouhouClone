@@ -12,10 +12,10 @@ Player::Player(float x, float y, Tag tag): GameObject(x, y, tag), Object(tag) {
 
     instance = this;
     this->sprName = "sprPlayer";
-    std::cout << (int)this->get_tag();
+    std::cout << (int)this->GetTag();
 }
 
-void Player::draw_bounds(SDL_Renderer* renderer){
+void Player::DrawBounds(SDL_Renderer* renderer){
     SDL_SetRenderDrawColor(renderer, bulletColor.r, bulletColor.g, bulletColor.b, 255);
     for (int w = 0; w < 8; w++)
     {
@@ -25,61 +25,58 @@ void Player::draw_bounds(SDL_Renderer* renderer){
             int dy = 4 - h; // vertical offset
             if ((dx * dx + dy * dy) <= (4 * 4))
             {
-                SDL_RenderDrawPoint(renderer, get_center_x() + dx, get_center_y() + dy);
+                SDL_RenderDrawPoint(renderer, GetCenterX() + dx, GetCenterY() + dy);
             }
         }
     }
 }
 
-SDL_FRect Player::get_bounds() const
+SDL_FRect Player::GetBounds() const
 {
-    return SDL_FRect{ get_center_x() - 4, get_center_y() - 4, 8, 8 };
+    return SDL_FRect{ GetCenterX() - 4, GetCenterY() - 4, 8, 8 };
 }
 
 
-void Player::start(){
+void Player::Start(){
     velX = 0;
     velY = 0;
     speed = 5;
     rotation = 0;
 }
 
-void Player::tick(){
-    //objectSize = QRectF(get_center_x()-4, get_center_y()-4, 8, 8);
+void Player::Tick(){
+    //objectSize = QRectF(GetCenterX()-4, GetCenterY()-4, 8, 8);
 
     x += velX;
     y += velY;
 
-    clamp_position();
+    ClampPosition();
 
     shootTimer ++;
 
     if (shoot && shootTimer >= Time::SECOND/fireRate){
-        instantiate(new PlayerBullet(get_center_x()-width/2, get_center_y()-height/6, bulletColor));
-        instantiate(new PlayerBullet(get_center_x()+width/3, get_center_y()-height/6, bulletColor));
+        Instantiate(new PlayerBullet(GetCenterX()-width/2, GetCenterY()-height/6, bulletColor));
+        Instantiate(new PlayerBullet(GetCenterX()+width/3, GetCenterY()-height/6, bulletColor));
 
         shootTimer = 0;
     }
 
 }
 
-void Player::collision(GameObject* other){
-    /*if (other->get_tag() == Tag::ObjectEnemyBullet){
-        destroy();
-        this->instance = NULL;
-        Handler::instance->remove_with_tag(Tag::ObjectEnemy);
-        Handler::instance->remove_with_tag(Tag::ObjectEnemyBullet);
-
-        instantiate(new Player(GAME_WIDTH/2, MAX_Y - GRID_SIZE*2));
-    }*/
+void Player::Collision(GameObject* other){
+    if (other->GetTag() == Tag::ObjectEnemyBullet){
+        //destroy();
+        ObjectHandler::instance->RemoveWithTag(Tag::ObjectEnemy);
+        ObjectHandler::instance->RemoveWithTag(Tag::ObjectEnemyBullet);
+    }
 }
 
-void Player::damage()
+void Player::Damage()
 {
     std::cout << "Player: damage()\n";
 }
 
-void Player::key_press(SDL_Keycode key){
+void Player::KeyPress(SDL_Keycode key){
     if (key == SDLK_LEFT) {
         keysDown[0] = true;
         velX = -speed;
@@ -107,7 +104,7 @@ void Player::key_press(SDL_Keycode key){
     }
 }
 
-void Player::key_release(SDL_Keycode key){
+void Player::KeyRelease(SDL_Keycode key){
     switch (key) {
         case SDLK_LEFT:
             keysDown[0] = false;
@@ -136,7 +133,7 @@ void Player::key_release(SDL_Keycode key){
     }
 }
 
-void Player::key_held(SDL_Keycode key){
+void Player::KeyHeld(SDL_Keycode key){
     if (key == SDLK_LEFT){
         keysDown[0] = true;
         velX = -speed;
@@ -164,6 +161,6 @@ void Player::key_held(SDL_Keycode key){
     }
 }
 
-/*void Player::damage(){
+/*void Player::Damage(){
     destroy();
 }*/

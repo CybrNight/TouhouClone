@@ -17,11 +17,11 @@ Game::Game(std::shared_ptr<SDL_Renderer> renderer)
     this->renderer = renderer;
 }
 
-void Game::tick() {
+void Game::Tick() {
     
 }
 
-void Game::render() {
+void Game::Render() {
     SDL_SetRenderDrawColor(renderer.get(), 79, 0, 129, 128);
     SDL_RenderFillRectF(renderer.get(), new SDL_FRect{ 0, 0, MIN_X, SCREEN_HEIGHT });
     SDL_RenderFillRectF(renderer.get(), new SDL_FRect{ 0, MAX_Y, SCREEN_WIDTH, SCREEN_HEIGHT });
@@ -30,17 +30,35 @@ void Game::render() {
 
 }
 
+bool Game::Start() {
+    if (LoadGameAssets()){
+        Mix_Music* music = AssetManager::GetAssetManager()->GetCachedMusic("bgm01");
 
-void Game::start() {
-    AssetManager::getAssetManager()->initSprite("sprPlayer");
+        if (Mix_PlayingMusic() == 0) {
+            Mix_PlayMusic(music, -1);
 
-    Mix_Music* music = AssetManager::getAssetManager()->getMusic("bgm01");
+            std::cout << "Game: start()\n";
+            Instantiate(new Player(GAME_WIDTH / 2, GAME_HEIGHT - GRID_SIZE * 2));
+            Instantiate(new EnemySpawner());
+        }
 
-    if (Mix_PlayingMusic() == 0) {
-        Mix_PlayMusic(music, -1);
-
-        std::cout << "Game: start()\n";
-        instantiate(new Player(GAME_WIDTH / 2, GAME_HEIGHT - GRID_SIZE * 2));
-        instantiate(new EnemySpawner());
+        return true;
     }
+    else {
+        std::cout << "Game: Failed to initialize game assets\n";
+    }
+}
+
+bool Game::LoadGameAssets()
+{
+    AssetManager* temp = AssetManager::GetAssetManager();
+    int check = 0;
+
+    check -= temp->CacheSprite("sprPlayer");
+    check -= temp->CacheSprite("sprEnemy");
+    check -= temp->CacheSprite("sprTrishotEnemy");
+    check -= temp->CacheSprite("sprBurstEnemy");
+    check -= temp->CacheMusic("bgm01", "ogg");
+
+    return check != 0;
 }

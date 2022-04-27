@@ -2,9 +2,9 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_image.h>
-#include <map>
 #include <string>
 #include <memory>
+#include <unordered_map>
 #include "Defs.h"
 
 using std::unique_ptr;
@@ -15,30 +15,32 @@ class AssetManager
 
     std::shared_ptr<SDL_Renderer> renderer;
 
-    std::map<std::string, std::shared_ptr<SDL_Texture>> spriteCache;
-    std::map<std::string, Mix_Music*> musicCache;
-    std::map<std::string, Mix_Chunk*> sfxCache;
+    std::vector<std::string> loadQueue;
 
-    SDL_Texture* loadSprite(std::string sprName);
-    Mix_Music* loadMusic(std::string musicName, std::string format = "ogg");
-    Mix_Chunk* loadSFX(std::string sfxName, std::string format);
+    std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> spriteCache;
+    std::unordered_map<std::string, Mix_Music*> musicCache;
+    std::unordered_map<std::string, Mix_Chunk*> sfxCache;
+
+    SDL_Texture* LoadSprite(std::string sprName);
+    Mix_Music* LoadMusic(std::string musicName, std::string format = "ogg");
+    Mix_Chunk* LoadSFX(std::string sfxName, std::string format);
 
 public:
-    SDL_Texture* getSprite(std::string sprName);
-    Mix_Music* getMusic(std::string musicName, std::string format = "ogg");
-    Mix_Chunk* getSFX(std::string sfxName);
+    SDL_Texture* GetCachedSprite(std::string sprName);
+    Mix_Music* GetCachedMusic(std::string musicName, std::string format = "ogg");
+    Mix_Chunk* GetCachedSFX(std::string sfxName);
 
-    bool initSprite(std::string sprName);
-    int initMusic(std::string musicName, std::string format = "ogg");
-    int initSFX(std::string sfxName);
+    bool CacheSprite(std::string sprName);
+    bool CacheMusic(std::string musicName, std::string format = "ogg");
+    bool CacheSFX(std::string sfxName);
 
     void clearCache();
 
-    inline void clearSpriteCache()  {spriteCache.clear(); }
-    inline void clearMusicCache() {musicCache.clear();  }
-    inline void clearSFXCache() {sfxCache.clear(); }
+    inline void ClearSpriteCache()  {spriteCache.clear(); }
+    inline void ClearMusicCache() {musicCache.clear();  }
+    inline void ClearSFXCache() {sfxCache.clear(); }
 
-    static inline AssetManager* getAssetManager(){ return instance; }
+    static inline AssetManager* GetAssetManager(){ return instance; }
 
     AssetManager(std::shared_ptr<SDL_Renderer> renderer);
     ~AssetManager();

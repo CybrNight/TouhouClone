@@ -17,25 +17,25 @@ class Player : public virtual GameObject, public virtual IControllable, public v
     static Player* instance;
 
 protected:
-    void start() override;
-    void tick() override;
+    void Start() override;
+    void Tick() override;
 
-    void key_press(SDL_Keycode key) override;
-    void key_release(SDL_Keycode key) override;
-    void key_held(SDL_Keycode key) override;
+    void KeyPress(SDL_Keycode key) override;
+    void KeyRelease(SDL_Keycode key) override;
+    void KeyHeld(SDL_Keycode key) override;
 
 public:
-    //void damage() override;
-    void draw_bounds(SDL_Renderer* painter) override;
+    //void Damage() override;
+    void DrawBounds(SDL_Renderer* painter) override;
 
     Player(float x, float y, Tag id = Tag::ObjectPlayer);
     ~Player(){}
 
-    SDL_FRect get_bounds() const override;
+    SDL_FRect GetBounds() const override;
     inline static Player* get_player() { return instance; }
     inline const SDL_Color get_bullet_color() const {return bulletColor;}
 
     //Called when other Collider overlaps
-    void collision(GameObject* other) override;
-    void damage() override;
+    void Collision(GameObject* other) override;
+    void Damage() override;
 };

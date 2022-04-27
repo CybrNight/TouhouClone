@@ -8,16 +8,16 @@ class BasicEnemy : public virtual Enemy
 {
     float distance = 0;
     float amplitude = GRID_SIZE*2;
-    float frequency = 2.5;
+    float frequency = 6;
 
 protected:
-    void tick();
-    void start();
+    void Tick();
+    void Start();
 public:
     BasicEnemy(float x, float y, float direction = 270);
     ~BasicEnemy(){std::cout << "Destroyed BasicEnemy\n";}
 
-    void collision(GameObject* other);
+    void Collision(GameObject* other);
 
-    void move();
+    void Move();
 };

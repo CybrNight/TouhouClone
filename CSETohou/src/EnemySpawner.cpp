@@ -13,11 +13,13 @@ EnemySpawner::EnemySpawner(): Object()
     counter = 0;
 }
 
-void EnemySpawner::generate_wave()
+void EnemySpawner::GenerateWave()
 {
-    int type = 3;
+    int type = std::rand() % 4;
     float y=-32;
     int num, range = (MAX_X - GRID_SIZE*4) + (MIN_X + GRID_SIZE*4) ;
+    
+    std::cout << "EnemySpawner: Generating wave type (" << type << ")\n";
     switch (type){ //Different wave types
     case 0:
         spawnInterval = 0.5;
@@ -64,22 +66,25 @@ void EnemySpawner::generate_wave()
     canSpawn = true;
 }
 
-void EnemySpawner::start()
+void EnemySpawner::Start()
 {
-    canSpawn = false;
+    canSpawn = true;
     std::srand(std::time(nullptr));
+    counter = 0;
+    GenerateWave();
 }
 
-void EnemySpawner::tick(){
+void EnemySpawner::Tick(){
 
     if (!enemyQueue.empty() && canSpawn){
         if (counter >= 60*spawnInterval){
             std::cout << "EnemySpawner: Spawned enemy from enemyQueue\n";
-            activeEnemies.push_back(dynamic_cast<GameObject*>(instantiate(enemyQueue.back())));
+            activeEnemies.push_back(dynamic_cast<GameObject*>(Instantiate(enemyQueue.back())));
             enemyQueue.pop_back();
             counter = 0;
             if (enemyQueue.empty()){
                 canSpawn = false;
+                counter = 0;
             }
         }
     }
@@ -87,27 +92,20 @@ void EnemySpawner::tick(){
 
 
     if (!canSpawn){
-        if (counter > 60*waveTime/2 && counter <= 60*waveTime){
-            for (auto i = activeEnemies.begin(); i != activeEnemies.end(); i++){
-                dynamic_cast<Enemy*>(*i)->set_enemy_state(EnemyState::Retreat);
-            }
-        }else if (counter >= 60*waveTime){
-            counter = 0;
-            generate_wave();
-        }else if (activeEnemies.empty()){
-            counter += 60*(waveTime/4);
+        if (counter >= Time::SECOND/2 && activeEnemies.empty()){
+            GenerateWave();
         }
     }
 
     for (size_t i = 0; i < activeEnemies.size(); i++){
         GameObject* temp = activeEnemies.at(i);
-        if (temp != NULL && temp->is_destroyed()){
+        if (temp != NULL && temp->IsDestroyed()){
             activeEnemies.erase(activeEnemies.begin() + i);
         }
     }
 }
 
-void EnemySpawner::tick_second()
+void EnemySpawner::TickSecond()
 {
 
 }

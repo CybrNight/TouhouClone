@@ -11,8 +11,8 @@ class PlayerBullet : public virtual GameObject
 
 protected:
     //Called every frame
-    void start();
-    void tick();
+    void Start();
+    void Tick();
 
 public:
     PlayerBullet(float x, float y, SDL_Color color);
@@ -20,7 +20,6 @@ public:
     ~PlayerBullet(){}
 
     //Called when other Collider overlaps
-    void collision(GameObject* other);
-    void render(SDL_Renderer* painter);
-    void draw_bounds(SDL_Renderer* renderer);
+    void Collision(GameObject* other);
+    void Render(SDL_Renderer* painter);
 };

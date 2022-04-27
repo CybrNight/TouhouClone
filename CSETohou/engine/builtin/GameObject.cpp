@@ -3,102 +3,117 @@
 #include <cmath>
 #include <iostream>
 
-void GameObject::move(float speed, float direction)
+void GameObject::Move(float speed, float direction)
 {
     x += speed * std::cos(direction * M_PI / 180);
     y -= speed * std::sin(direction * M_PI / 180);
 }
 
-/*QRectF GameObject::get_bounds() const
+/*QRectF GameObject::GetBounds() const
 {
-    return QRectF(get_x(), get_y(), width, height);
+    return QRectF(GetX(), GetY(), width, height);
 }*/
 
-void GameObject::move()
+void GameObject::Move()
 {
-    move(this->speed, this->direction);
+    Move(this->speed, this->direction);
 }
 
-void GameObject::render(SDL_Renderer* renderer) {
+void GameObject::Render(SDL_Renderer* renderer) {
 
     if (sprite == NULL) {
         SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
-        SDL_RenderFillRectF(renderer, new SDL_FRect{ get_x(), get_y(), width, height });
+        SDL_RenderFillRectF(renderer, new SDL_FRect{ GetX(), GetY(), width, height });
     }
     else {
-        SDL_RenderCopyExF(renderer, sprite, new SDL_Rect{0, 0, drawRect.w, drawRect.h}, new SDL_FRect{get_x(), get_y(), width, height}, rotation, NULL, SDL_FLIP_NONE);
+        SDL_RenderCopyExF(renderer, sprite, new SDL_Rect{0, 0, drawRect.w, drawRect.h}, new SDL_FRect{GetX(), GetY(), width, height}, rotation, NULL, SDL_FLIP_NONE);
     }
 }
 
-SDL_FRect GameObject::get_bounds() const {
+SDL_FRect GameObject::GetBounds() const {
     return SDL_FRect{x, y, width, height };
 }
 
-void GameObject::draw_bounds(SDL_Renderer* renderer)
+void GameObject::DrawBounds(SDL_Renderer* renderer)
 {
+    float radius = width / 2;
+    float border = (radius*2) + 2;
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderDrawRectF(renderer, new SDL_FRect{x, y, width, height});
+    for (int w = 0; w <= border; w++)
+    {
+        for (int h = 0; h <= border; h++)
+        {
+            int dx = radius - w; // horizontal offset
+            int dy = radius - h; // vertical offset
+            float size = (dx * dx + dy * dy);
+            if (size >= ((radius) * (radius)) && size <= ((border/2) * (border/2))) {
+                SDL_RenderDrawPoint(renderer, GetCenterX() + dx, GetCenterY() + dy);
+            }
+        }
+    }
 }
 
-void GameObject::clamp_position(char xy)
+void GameObject::ClampPosition(char xy)
 {
     if (xy == 'x') {
-        x = clamp(x, MIN_X, MAX_X - width);
+        x = Clamp(x, MIN_X, MAX_X - width);
     }
     else if (xy == 'y') {
-        y = clamp(y, MIN_Y, MAX_Y - height);
+        y = Clamp(y, MIN_Y, MAX_Y - height);
     }
     else if (xy == ' ') {
-        x = clamp(x, MIN_X, MAX_X - width);
-        y = clamp(y, MIN_Y, MAX_Y - height);
+        x = Clamp(x, MIN_X, MAX_X - width);
+        y = Clamp(y, MIN_Y, MAX_Y - height);
     }
 }
 
-void GameObject::init()
+void GameObject::Init()
 {
     rotation = 0;
-    start();
+    Start();
 }
 
-void GameObject::clamp_x() {
-    clamp_position('x');
+void GameObject::ClampX() {
+    ClampPosition('x');
 }
 
-void GameObject::clamp_y() {
-    clamp_position('y');
+void GameObject::ClampY() {
+    ClampPosition('y');
 }
 
-void GameObject::destroy_outside()
+void GameObject::DestroyOutside()
 {
-    if (get_x() < MIN_X - width / 2 || get_y() < MIN_Y - height / 2 || get_x() > MAX_X + width / 2 || get_y() > MAX_Y + height / 2) {
-        destroy();
+    if (GetX() < MIN_X - width / 2 || GetY() < MIN_Y - height / 2 || GetX() > MAX_X + width / 2 || GetY() > MAX_Y + height / 2) {
+        Destroy();
     }
 }
 
 GameObject::GameObject(float x, float y, Tag tag, float width, float height): Object(tag)
 {
     destroyed = false;
-    this->set_x(x);
-    this->set_y(y);
-    this->set_width(width);
-    this->set_height(height);
+    this->SetX(x);
+    this->SetY(y);
+    this->SetWidth(width);
+    this->SetHeight(height);
     sprName = "none";
 }
 
 GameObject::~GameObject() {}
 
 
-void GameObject::load_sprite(SDL_Texture* sprite)
+void GameObject::LoadSprite(SDL_Texture* sprite)
 {
     this->sprite = sprite;
     int w, h;
     SDL_QueryTexture(sprite, NULL, NULL, &w, &h);
     drawRect = {0, 0, w, h};
+    width = w;
+    height = h;
 }
 
 bool GameObject::operator==(GameObject* other)
 {
-    if (this->get_uuid() == other->get_uuid()) {
+    if (this->GetUUID() == other->GetUUID()) {
         return true;
     }
     return false;

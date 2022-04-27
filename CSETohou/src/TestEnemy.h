@@ -11,13 +11,13 @@ class TestEnemy : public virtual Enemy
     float frequency = 6;
 
 protected:
-    void tick();
-    void start();
+    void Tick();
+    void Start();
 public:
     TestEnemy(float x, float y, float direction = 270);
     ~TestEnemy(){ std::cout << "Destroyed BasicEnemy\n";}
 
-    void collision(GameObject* other);
+    void Collision(GameObject* other);
 
-    void move();
+    void Move();
 };
