@@ -86,6 +86,14 @@ void Player::Tick(){
         shoot = false;
     }
 
+    if (input.GetKey(SDL_SCANCODE_LSHIFT)) {
+        speed = 2.5f;
+    }
+    
+    if (input.GetKeyUp(SDL_SCANCODE_LSHIFT)) {
+        speed = 5;
+    }
+
     if (keysDown[0] == false && keysDown[1] == false) velX = 0;
     if (keysDown[2] == false && keysDown[3] == false) velY = 0;
 

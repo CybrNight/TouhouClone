@@ -63,7 +63,6 @@ void BurstEnemy::Tick(){
             Destroy();
             
             for (int i = 0; i < 360; i += 20) {
-                std::cout << "Hello";
                 Instantiate(new EnemyBullet(GetCenterX(), GetCenterY(), SDL_Color{0, 255, 255}, 4, i));
             }
         }

@@ -69,7 +69,6 @@ namespace EngineCore {
     {
         auto key = keyMap.find(event.keysym.scancode);
         if (key != keyMap.end()) {
-            std::cout << (int)event.keysym.scancode << '\n';
             (*key).second++;
         }
     }
@@ -83,7 +82,6 @@ namespace EngineCore {
 
     void Input::MouseButton(SDL_MouseButtonEvent& event)
     {
-        std::cout << event.button << '\n';
         mouseButtons[event.button]++;
     }
 

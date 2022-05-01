@@ -35,8 +35,6 @@ void TrishotEnemy::Tick(){
         counter ++;
         shootTimer ++;
 
-        std::cout << counter << '\n';
-
         if (counter >= Time::SECOND*2) {
             canShoot = false;
             enemyState == EnemyState::Retreat;
