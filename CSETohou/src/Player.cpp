@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "ObjectHandler.h"
 #include "PlayerBullet.h"
+#include "Input.h"
 Player* Player::instance;
 #include <iostream>
 
@@ -45,7 +46,48 @@ void Player::Start(){
 }
 
 void Player::Tick(){
-    //objectSize = QRectF(GetCenterX()-4, GetCenterY()-4, 8, 8);
+    EngineCore::Input& input = *(EngineCore::Input::GetInstance());
+
+    if (input.GetKey(SDL_SCANCODE_LEFT)) {
+        velX = -speed;
+        keysDown[0] = true;
+    }
+    if (input.GetKey(SDL_SCANCODE_RIGHT)) {
+        velX = speed;
+        keysDown[1] = true;
+    }
+    if (input.GetKey(SDL_SCANCODE_UP)) {
+        velY = -speed;
+        keysDown[2] = true;
+    }
+    if (input.GetKey(SDL_SCANCODE_DOWN)) {
+        velY = speed;
+        keysDown[3] = true;
+    }
+
+    if (input.GetKeyUp(SDL_SCANCODE_LEFT)) {
+        keysDown[0] = false;
+    }
+    if (input.GetKeyUp(SDL_SCANCODE_RIGHT)) {
+        keysDown[1] = false;
+    }
+    if (input.GetKeyUp(SDL_SCANCODE_UP)) {
+        keysDown[2] = false;
+    }
+    if (input.GetKeyUp(SDL_SCANCODE_DOWN)) {
+        keysDown[3] = false;
+    }
+
+    if (input.GetKey(SDL_SCANCODE_Z)) {
+        shoot = true;
+    }
+
+    if (input.GetKeyUp(SDL_SCANCODE_Z)) {
+        shoot = false;
+    }
+
+    if (keysDown[0] == false && keysDown[1] == false) velX = 0;
+    if (keysDown[2] == false && keysDown[3] == false) velY = 0;
 
     x += velX;
     y += velY;
@@ -66,99 +108,12 @@ void Player::Tick(){
 void Player::Collision(GameObject* other){
     if (other->GetTag() == Tag::ObjectEnemyBullet){
         //destroy();
-        ObjectHandler::instance->RemoveWithTag(Tag::ObjectEnemy);
-        ObjectHandler::instance->RemoveWithTag(Tag::ObjectEnemyBullet);
     }
 }
 
 void Player::Damage()
 {
     std::cout << "Player: damage()\n";
-}
-
-void Player::KeyPress(SDL_Keycode key){
-    if (key == SDLK_LEFT) {
-        keysDown[0] = true;
-        velX = -speed;
-    }
-    if (key == SDLK_RIGHT) {
-        keysDown[1] = true;
-        velX = speed;
-    }
-    if (key == SDLK_UP) {
-        keysDown[2] = true;
-        velY = -speed;
-    }
-    if (key == SDLK_DOWN) {
-        velY = speed;
-        keysDown[3] = true;
-    }
-
-
-    if (key == SDLK_z) {
-        shoot = true;
-    }
-
-    if (key == SDLK_LSHIFT) {
-        speed = 2;
-    }
-}
-
-void Player::KeyRelease(SDL_Keycode key){
-    switch (key) {
-        case SDLK_LEFT:
-            keysDown[0] = false;
-            break;
-        case SDLK_RIGHT:
-            keysDown[1] = false;
-            break;
-        case SDLK_UP:
-            keysDown[2] = false;
-            break;
-        case SDLK_DOWN:
-            keysDown[3] = false;
-            break;
-
-    }
-
-    if (!keysDown[0] && !keysDown[1]) velX = 0;
-    if (!keysDown[2] && !keysDown[3]) velY = 0;
-
-    if (key == SDLK_z) {
-        shoot = false;
-    }
-
-    if (key == SDLK_LSHIFT){
-        speed = 5;
-    }
-}
-
-void Player::KeyHeld(SDL_Keycode key){
-    if (key == SDLK_LEFT){
-        keysDown[0] = true;
-        velX = -speed;
-    }
-    if (key == SDLK_RIGHT){
-        keysDown[1] = true;
-        velX = speed;
-    }
-    if (key == SDLK_UP){
-        keysDown[2] = true;
-        velY = -speed;
-    }
-    if (key == SDLK_DOWN){
-        velY = speed;
-        keysDown[3] = true;
-    }
-
-
-    if (key == SDLK_z){
-        shoot = true;
-    }
-
-    if (key == SDLK_LSHIFT){
-        speed = 2;
-    }
 }
 
 /*void Player::Damage(){

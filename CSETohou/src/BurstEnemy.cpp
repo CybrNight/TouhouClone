@@ -2,6 +2,7 @@
 #include "ObjectHandler.h"
 #include "Enemybullet.h"
 #include <cmath>
+#include <iostream>
 
 BurstEnemy::BurstEnemy(float x, float y, float direction) : Enemy(x, y), GameObject(x, y, Tag::ObjectEnemy), Object(Tag::ObjectEnemy)
 {
@@ -23,15 +24,15 @@ void BurstEnemy::Start(){
 }
 
 void BurstEnemy::Collision(GameObject* other){
-    if (other->GetTag() == Tag::ObjectPlayerBullet){
-        ::Destroy(other);
-    }
+   
 }
 
 void BurstEnemy::Tick(){
+    //Rotate and move every frame
     rotation += 5;
     Move();
 
+    //Switch to attack mode after getting on screen
     if (enemyState == EnemyState::Warmup){
         if (GetY() >= startY + GRID_SIZE * 2) {
             SetEnemyState(EnemyState::Attack);
@@ -42,11 +43,11 @@ void BurstEnemy::Tick(){
         counter ++;
 
         if (counter >= Time::SECOND){
-            if (Player::get_player() == NULL)
+            if (Player::GetPlayer() == NULL)
                 return;
 
-            distX = Player::get_player()->GetX()-GetX();
-            distY = -(Player::get_player()->GetY()-GetY());
+            distX = Player::GetPlayer()->GetX()-GetX();
+            distY = -(Player::GetPlayer()->GetY()-GetY());
 
             angle = std::atan2(distY, distX) * 180/M_PI;
 
@@ -60,8 +61,9 @@ void BurstEnemy::Tick(){
 
         if (health <= 0) {
             Destroy();
-
+            
             for (int i = 0; i < 360; i += 20) {
+                std::cout << "Hello";
                 Instantiate(new EnemyBullet(GetCenterX(), GetCenterY(), SDL_Color{0, 255, 255}, 4, i));
             }
         }

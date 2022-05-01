@@ -39,11 +39,11 @@ void BasicEnemy::Tick(){
 
 
         if (shootTimer >= Time::SECOND/fireRate && canShoot){
-            if (Player::get_player() == NULL)
+            if (Player::GetPlayer() == NULL)
                 return;
 
-            distX = Player::get_player()->GetX()-GetX();
-            distY = -(Player::get_player()->GetY()-GetY());
+            distX = Player::GetPlayer()->GetX()-GetX();
+            distY = -(Player::GetPlayer()->GetY()-GetY());
 
             angle = std::atan2(distY, distX) * 180/M_PI;
 

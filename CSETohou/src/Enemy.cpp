@@ -13,7 +13,6 @@ void Enemy::Init(){
     canShoot = false;
     shootTimer = 0;
     enemyState = EnemyState::Warmup;
-    Start();
 }
 
 void Enemy::Start()
@@ -26,5 +25,5 @@ Enemy::~Enemy(){
 }
 
 void Enemy::Damage(){
-    set_health(get_health()-1);
+    SetHealth(GetHealth()-1);
 }

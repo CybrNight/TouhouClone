@@ -153,11 +153,11 @@
     <ClCompile Include="engine\core\AssetManager.cpp" />
     <ClCompile Include="engine\builtin\GameObject.cpp" />
     <ClCompile Include="engine\builtin\Object.cpp" />
-    <ClCompile Include="engine\core\Game.cpp" />
+    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="engine\core\ObjectHandler.cpp" />
-    <ClCompile Include="engine\interface\IControllable.cpp" />
     <ClCompile Include="engine\interface\IDamagable.cpp" />
     <ClCompile Include="engine\Main.cpp" />
+    <ClCompile Include="engine\core\Input.cpp" />
     <ClCompile Include="src\BasicEnemy.cpp" />
     <ClCompile Include="src\BurstEnemy.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
@@ -167,17 +167,18 @@
     <ClCompile Include="src\PlayerBullet.cpp" />
     <ClCompile Include="src\TestEnemy.cpp" />
     <ClCompile Include="src\TrishotEnemy.cpp" />
+    <ClCompile Include="engine\builtin\UIObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\core\AssetManager.h" />
     <ClInclude Include="engine\builtin\GameObject.h" />
     <ClInclude Include="engine\builtin\Object.h" />
-    <ClInclude Include="engine\core\Game.h" />
+    <ClInclude Include="src\Game.h" />
     <ClInclude Include="engine\core\ObjectHandler.h" />
     <ClInclude Include="engine\builtin\Tag.h" />
     <ClInclude Include="engine\builtin\Defs.h" />
-    <ClInclude Include="engine\interface\IControllable.h" />
     <ClInclude Include="engine\interface\IDamagable.h" />
+    <ClInclude Include="engine\core\Input.h" />
     <ClInclude Include="src\BasicEnemy.h" />
     <ClInclude Include="src\BurstEnemy.h" />
     <ClInclude Include="src\Enemy.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="src\PlayerBullet.h" />
     <ClInclude Include="src\TestEnemy.h" />
     <ClInclude Include="src\TrishotEnemy.h" />
+    <ClInclude Include="engine\builtin\UIObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\music\bgm01.ogg" />

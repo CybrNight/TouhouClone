@@ -3,8 +3,8 @@
 //TODO REPLACE WITH SDL EQUIVALENTS
 
 //#include <QImage>
-#include "tag.h"
-#include "object.h"
+#include "Tag.h"
+#include "Object.h"
 //#include <QPainter>
 //#include <QKeyEvent>
 //#include <QRectF>
@@ -38,42 +38,83 @@ protected:
     float direction;
     unsigned long long uuid;
     bool destroyed;
-
+    
+    /// <summary>
+    /// Clamp GameObject x position to bounds of play area (if called from GameObject Tick()).
+    /// Calls ClampPosition with xy = 'x'
+    /// </summary>
     void ClampX();
+
+    /// <summary>
+    /// Clamp GameObject x position to bounds of play area (if called from GameObject Tick()).
+    /// Calls ClampPosition with xy = 'y'
+    /// </summary>
     void ClampY();
+
+    /// <summary>
+    /// Clamps x and y position.
+    /// Default xy value (' ') clamps both x and y
+    /// </summary>
+    /// <param name="xy"></param>
     void ClampPosition(char xy=' ');
 
 public:
 
+    //Initializes values that all GameObjects need (not implemented by children)
     virtual void Init();
+
+    //Draws SDL_Texture at object positon
     virtual void Render(SDL_Renderer* renderer);
+
+    //Called when GameObject is first created in the game
     virtual void Start() = 0;
+
+    //Called every frame
     virtual void Tick() = 0;
+
+    //REMOVE ME I AM USELESS
     virtual void TickSecond(){}
+
+    /// <summary>
+    /// Handles collison checks sent from Handler
+    /// </summary>
+    /// <param name="other"></param>
     virtual void Collision(GameObject* other) {}
 
-    /** Move with GameObject speed and direction
-     * @brief Move
-     */
+    /// <summary>
+    /// Moves GameObject based on direction and speed (default behavior)
+    /// </summary>
     virtual void Move();
-    virtual void DestroyOutside();
 
-    /** Move with custom speed and direction
-     * @brief Move
-     * @param speed
-     * @param direction
-     */
+    /// <summary>
+    /// Checks if GameObject is outside play area. Destroys the object if so
+    /// </summary>
+    void DestroyOutside();
+
+    /// <summary>
+    /// Moves with set speed and direction separate from GameObject's local values
+    /// </summary>
+    /// <param name="speed"></param>
+    /// <param name="direction"></param>
     void Move(float speed, float direction);
 
-    /**
-     * @brief GetBounds
-     * @return QRectF with GameObject dimensions
-     */
+    /// <summary>
+    /// Returns the bounds of a given GameObject as an SDL_FRect based on GameObject width, height
+    /// </summary>
+    /// <returns></returns>
     virtual SDL_FRect GetBounds() const;
+
+
+    /// <summary>
+    /// Draws a circle render of GameObject hitbox based on width
+    /// </summary>
+    /// <param name="renderer"></param>
     virtual void DrawBounds(SDL_Renderer* renderer);
 
-    GameObject(float x, float y, Tag id, float width = 0, float height = 0);
+    GameObject(float x, float y, Tag tag, float width = 0, float height = 0);
     virtual ~GameObject() = 0;
+
+    GameObject* FindWithTag(Tag tag);
 
     inline float GetX() const {return x;}
     inline float GetY() const { return y; }
@@ -96,6 +137,3 @@ public:
     inline void SetRotation(float rotation){ this->rotation = rotation; };
     bool operator==(GameObject* other);
 };
-
-inline void Destroy(GameObject* obj) { obj->Destroy(); }
-//inline void instantiate(GameObject* obj) { Handler::instance->instantiate(obj); }

@@ -100,6 +100,11 @@ GameObject::GameObject(float x, float y, Tag tag, float width, float height): Ob
 
 GameObject::~GameObject() {}
 
+GameObject* GameObject::FindWithTag(Tag tag)
+{
+    return dynamic_cast<GameObject*>(EngineCore::ObjectHandler::GetInstance()->GetObject(tag));
+}
+
 
 void GameObject::LoadSprite(SDL_Texture* sprite)
 {

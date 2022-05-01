@@ -54,14 +54,8 @@
     <ClCompile Include="engine\builtin\GameObject.cpp">
       <Filter>Source Files\engine\builtin</Filter>
     </ClCompile>
-    <ClCompile Include="engine\interface\IControllable.cpp">
-      <Filter>Source Files\engine\interface</Filter>
-    </ClCompile>
     <ClCompile Include="engine\interface\IDamagable.cpp">
       <Filter>Source Files\engine\interface</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Player.cpp">
-      <Filter>Source Files\src</Filter>
     </ClCompile>
     <ClCompile Include="src\BasicEnemy.cpp">
       <Filter>Source Files\src</Filter>
@@ -93,8 +87,17 @@
     <ClCompile Include="engine\core\ObjectHandler.cpp">
       <Filter>Source Files\engine\core</Filter>
     </ClCompile>
-    <ClCompile Include="engine\core\Game.cpp">
+    <ClCompile Include="src\Game.cpp">
       <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\builtin\UIObject.cpp">
+      <Filter>Source Files\engine\builtin</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\core\Input.cpp">
+      <Filter>Source Files\engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Player.cpp">
+      <Filter>Header Files\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,17 +107,11 @@
     <ClInclude Include="engine\builtin\Tag.h">
       <Filter>Header Files\engine\builtin</Filter>
     </ClInclude>
-    <ClInclude Include="engine\builtin\Defs.h">
-      <Filter>Header Files\engine\builtin</Filter>
-    </ClInclude>
     <ClInclude Include="engine\core\ObjectHandler.h">
       <Filter>Header Files\engine\core</Filter>
     </ClInclude>
     <ClInclude Include="engine\builtin\GameObject.h">
       <Filter>Header Files\engine\builtin</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\interface\IControllable.h">
-      <Filter>Header Files\engine\interface</Filter>
     </ClInclude>
     <ClInclude Include="engine\interface\IDamagable.h">
       <Filter>Header Files\engine\interface</Filter>
@@ -149,8 +146,17 @@
     <ClInclude Include="engine\core\AssetManager.h">
       <Filter>Header Files\engine\core</Filter>
     </ClInclude>
-    <ClInclude Include="engine\core\Game.h">
+    <ClInclude Include="src\Game.h">
       <Filter>Header Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\builtin\Defs.h">
+      <Filter>Header Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\builtin\UIObject.h">
+      <Filter>Header Files\engine\builtin</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\core\Input.h">
+      <Filter>Header Files\engine\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

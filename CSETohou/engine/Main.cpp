@@ -11,15 +11,8 @@ and may not be redistributed without written permission.*/
 #include <iostream>
 #include <SDL_mixer.h>
 #include "AssetManager.h"
+#include "Input.h"
 
-//Starts up SDL and creates window
-bool Init();
-
-//Loads media
-bool LoadMedia();
-
-//Frees media and shuts down SDL
-void Close();
 
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
@@ -28,8 +21,9 @@ SDL_Window* gWindow = NULL;
 std::shared_ptr<SDL_Renderer> renderer = NULL;
 
 Game* game;
-ObjectHandler* handler;
-AssetManager* aManager;
+EngineCore::ObjectHandler* handler;
+EngineCore::AssetManager* aManager;
+EngineCore::Input* input;
 
 bool Init()
 {
@@ -100,8 +94,9 @@ void Tick() {
     game->Tick();
 }
 
-void Input(SDL_KeyboardEvent& e) {
-    handler->Input(e);
+void Input(SDL_Event& e) {
+    //handler->InputEvent(e);
+    input->InputEvent(e);
 }
 
 void Render() {
@@ -128,9 +123,11 @@ int main(int argc, char* args[]) {
         //Event handler
         SDL_Event e;
 
-        game = new Game(renderer);
-        handler = new ObjectHandler(renderer);
-        aManager = new AssetManager(renderer);
+        //Get reference to singletons
+        game = Game::GetInstance(renderer);
+        handler = EngineCore::ObjectHandler::GetInstance(renderer);
+        aManager = EngineCore::AssetManager::GetInstance (renderer);
+        input = EngineCore::Input::GetInstance();
 
         if (game->Start()) {
             //While application is running
@@ -145,10 +142,7 @@ int main(int argc, char* args[]) {
                         quit = true;
                     }
 
-
-                    if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
-                        Input(e.key);
-                    }
+                    Input(e);
 
                 }
 

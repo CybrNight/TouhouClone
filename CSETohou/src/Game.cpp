@@ -12,13 +12,29 @@
 float Time::DELTA_TIME;
 float Time::SECOND;
 
-Game::Game(std::shared_ptr<SDL_Renderer> renderer)
+Game* Game::instance;
+
+Game::Game()
 {
-    this->renderer = renderer;
+    
 }
 
 void Game::Tick() {
     
+}
+
+void Game::Init(std::shared_ptr<SDL_Renderer> renderer) {
+    this->renderer = renderer;
+}
+
+Game* Game::GetInstance(std::shared_ptr<SDL_Renderer> renderer)
+{
+    if (instance == NULL) {
+        instance = new Game();
+        instance->Init(renderer);
+    }
+    return instance;
+
 }
 
 void Game::Render() {
@@ -31,15 +47,16 @@ void Game::Render() {
 }
 
 bool Game::Start() {
+    EngineCore::ObjectHandler* oHandler = EngineCore::ObjectHandler::GetInstance();
     if (LoadGameAssets()){
-        Mix_Music* music = AssetManager::GetAssetManager()->GetCachedMusic("bgm01");
+        Mix_Music* music = EngineCore::AssetManager::GetInstance()->GetCachedMusic("bgm01");
 
         if (Mix_PlayingMusic() == 0) {
             Mix_PlayMusic(music, -1);
 
             std::cout << "Game: start()\n";
-            Instantiate(new Player(GAME_WIDTH / 2, GAME_HEIGHT - GRID_SIZE * 2));
-            Instantiate(new EnemySpawner());
+            oHandler->Instantiate(new Player(GAME_WIDTH / 2, GAME_HEIGHT - GRID_SIZE * 2));
+            oHandler->Instantiate(new EnemySpawner());
         }
 
         return true;
@@ -51,7 +68,7 @@ bool Game::Start() {
 
 bool Game::LoadGameAssets()
 {
-    AssetManager* temp = AssetManager::GetAssetManager();
+    EngineCore::AssetManager* temp = EngineCore::AssetManager::GetInstance();
     int check = 0;
 
     check -= temp->CacheSprite("sprPlayer");
