@@ -69,7 +69,9 @@ namespace EngineCore {
     {
         auto key = keyMap.find(event.keysym.scancode);
         if (key != keyMap.end()) {
-            (*key).second++;
+            if (key->second < 0)
+                key->second = 0;
+            key->second++;
         }
     }
 

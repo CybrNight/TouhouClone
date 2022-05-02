@@ -16,6 +16,7 @@ protected:
     //All enemies have health
     float health = 5;
 
+    //All enemies can use these values to program patterns
     float shootTimer = 0;
     float fireRate = 0;
     float counter = 0;

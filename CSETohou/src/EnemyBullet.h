@@ -2,6 +2,7 @@
 
 #include <gameobject.h>
 #include "game.h"
+#include <iostream>
 
 class EnemyBullet : public GameObject
 {
@@ -17,7 +18,7 @@ protected:
 
 public:
     EnemyBullet(float x, float y, SDL_Color bulletColor, float speed = 600, float direction = 270, float width = GRID_SIZE/4, float height = GRID_SIZE/2);
-    ~EnemyBullet(){}
+    ~EnemyBullet() { }
 
     void Collision(GameObject* other);
 };
