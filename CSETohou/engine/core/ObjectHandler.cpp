@@ -6,6 +6,9 @@
 #include <iostream>
 #include <random>
 #include <stdexcept>
+#include <algorithm>
+
+using UI::UIObject;
 
 namespace EngineCore {
     ObjectHandler* ObjectHandler::instance;
@@ -114,14 +117,23 @@ namespace EngineCore {
 
     void ObjectHandler::Render()
     {
-        for (size_t i = 0; i < gameObjectList.size(); i++) {
-            GameObject* temp = gameObjectList.at(i);
-            if (temp != NULL) {
-                temp->Render(renderer.get());
-                temp->DrawBounds(renderer.get());
+        for (size_t i = 0; i < std::max(gameObjectList.size(), uiObjectList.size()); i++) {
+            if (i < gameObjectList.size()) {
+                GameObject* temp = gameObjectList.at(i);
+                if (temp != NULL) {
+                    temp->Render(renderer.get());
+                    temp->DrawBounds(renderer.get());
+                }
+                else {
+                    throw 20;
+                }
             }
-            else {
-                throw 20;
+
+            if (i < uiObjectList.size()) {
+                UIObject* temp = uiObjectList.at(i);
+                if (temp != NULL) {
+                    temp->Render(renderer.get());
+                }
             }
         }
     }
@@ -188,6 +200,10 @@ namespace EngineCore {
                     gameObject->LoadSprite(AssetManager::GetInstance()->GetCachedSprite(name));
                 }
                 gameObjectList.push_back(gameObject);
+            }
+
+            if (auto uiObject = dynamic_cast<UIObject*>(obj)) {
+                uiObjectList.push_back(uiObject);
             }
 
             objectCreationQueue.pop_back();

@@ -1,13 +1,19 @@
 #pragma once
 #include "Object.h"
+#include <SDL.h>
 
-class UIObject: public virtual Object
-{
-    int x, y;
-    int width, height;
+namespace UI {
+    class UIObject : public virtual Object
+    {
+    protected:
+        int x, y;
+        int width, height;
+        SDL_Rect boundsRect;
 
-public:
-    UIObject(int x, int y, int width, int height);
-    virtual ~UIObject() = 0;
-};
-
+    public:
+        UIObject(int x, int y, int width, int height);
+        virtual ~UIObject() = 0;
+        
+        virtual void Render(SDL_Renderer* renderer) = 0;
+    };
+}

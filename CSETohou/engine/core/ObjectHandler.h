@@ -1,4 +1,5 @@
 #pragma once
+#include "UIObject.h"
 
 #include <SDL.h>
 
@@ -23,6 +24,7 @@ namespace EngineCore {
         // for example)
         std::vector<Object*> objectCreationQueue;
         std::vector<Object*> objectProcessQueue;
+        std::vector<UI::UIObject*> uiObjectList;
         std::vector<GameObject*> gameObjectList;
 
         // Private original definition of remove_object that takes in iterator from

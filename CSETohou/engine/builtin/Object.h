@@ -26,7 +26,7 @@ public:
 	/// Called every frame from Handler
 	/// </summary>
 	virtual void Tick() = 0;
-	virtual void TickSecond() = 0; //REMOVE ME SOON
+	//virtual void TickSecond() = 0; //REMOVE ME SOON
 
 	/// <summary>
 	/// Marks current Object for destruction next cycle

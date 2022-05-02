@@ -168,6 +168,8 @@
     <ClCompile Include="src\TestEnemy.cpp" />
     <ClCompile Include="src\TrishotEnemy.cpp" />
     <ClCompile Include="engine\builtin\UIObject.cpp" />
+    <ClCompile Include="engine\builtin\UIButton.cpp" />
+    <ClCompile Include="engine\builtin\UILabel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\core\AssetManager.h" />
@@ -189,6 +191,8 @@
     <ClInclude Include="src\TestEnemy.h" />
     <ClInclude Include="src\TrishotEnemy.h" />
     <ClInclude Include="engine\builtin\UIObject.h" />
+    <ClInclude Include="engine\builtin\UIButton.h" />
+    <ClInclude Include="engine\builtin\UILabel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\music\bgm01.ogg" />

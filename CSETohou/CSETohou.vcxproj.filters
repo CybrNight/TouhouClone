@@ -99,6 +99,12 @@
     <ClCompile Include="src\Player.cpp">
       <Filter>Header Files\src</Filter>
     </ClCompile>
+    <ClCompile Include="engine\builtin\UILabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\builtin\UIButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\builtin\Object.h">
@@ -157,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="engine\core\Input.h">
       <Filter>Header Files\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\builtin\UILabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\builtin\UIButton.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
