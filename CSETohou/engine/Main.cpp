@@ -32,7 +32,7 @@ bool Init()
 
     //Initialize SDL
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVERYTHING) < 0)
     {
         printf("Main: SDL could not initialize! SDL Error: %s\n", SDL_GetError());
         success = false;
