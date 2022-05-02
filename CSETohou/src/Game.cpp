@@ -63,6 +63,7 @@ bool Game::Start() {
     }
     else {
         std::cout << "Game: Failed to initialize game assets\n";
+        return false;
     }
 }
 
