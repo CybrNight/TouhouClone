@@ -66,6 +66,8 @@ namespace EngineCore {
                 std::cout << "AssetManager: Failed to add sprite (" << sprName << ") to spriteCache\n";
             }
         }
+
+        return NULL;
     }
 
     Mix_Music* AssetManager::GetCachedMusic(std::string musicName, std::string format) {
