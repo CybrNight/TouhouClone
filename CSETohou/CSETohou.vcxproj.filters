@@ -175,5 +175,6 @@
     <None Include="resource\music\bgm01.ogg">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="resource\music\bgm02.ogg" />
   </ItemGroup>
 </Project>

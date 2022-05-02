@@ -1,9 +1,12 @@
 #include "UILabel.h"
+#include "ObjectHandler.h"
 #include <iostream>
 
 namespace UI {
     void UILabel::Render(SDL_Renderer* renderer){
-        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_QueryTexture(textTexture, NULL, NULL, &width, &height);
+        boundsRect = { x, y, width, height };
+
         SDL_RenderCopy(renderer, textTexture, NULL, &boundsRect);
 
         if (font == NULL) {
@@ -19,12 +22,18 @@ namespace UI {
     {
         this->text = text;
 
-        font = TTF_OpenFont("resource/font/font.ttf", 24);
-        SDL_Color color = { 255, 255, 255 };
-        surface = TTF_RenderText_Solid(font, text.c_str(), color);
+        font = TTF_OpenFont("resource/font/font2.ttf", 26);
     }
 
     void UILabel::Tick() {
 
+    }
+
+    void UILabel::SetText(std::string text) {
+        SDL_Color color = { 255, 255, 255 };
+        SDL_DestroyTexture(textTexture);
+        SDL_FreeSurface(surface);
+        surface = TTF_RenderText_Blended(font, text.c_str(), color);
+        textTexture = SDL_CreateTextureFromSurface(EngineCore::ObjectHandler::GetInstance()->GetRenderer(), surface);
     }
 }

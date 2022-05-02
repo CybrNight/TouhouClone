@@ -117,7 +117,8 @@ namespace EngineCore {
 
     void ObjectHandler::Render()
     {
-        for (size_t i = 0; i < std::max(gameObjectList.size(), uiObjectList.size()); i++) {
+        //Render GameObjects
+        for (size_t i = 0; i < gameObjectList.size(); i++) {
             if (i < gameObjectList.size()) {
                 GameObject* temp = gameObjectList.at(i);
                 if (temp != NULL) {
@@ -128,7 +129,11 @@ namespace EngineCore {
                     throw 20;
                 }
             }
+        }
+    }
 
+    void ObjectHandler::RenderUI() {
+        for (size_t i = 0; i < uiObjectList.size(); i++) {
             if (i < uiObjectList.size()) {
                 UIObject* temp = uiObjectList.at(i);
                 if (temp != NULL) {
@@ -138,7 +143,7 @@ namespace EngineCore {
         }
     }
 
-    void ObjectHandler::Instantiate(Object* obj) {
+    Object* ObjectHandler::Instantiate(Object* obj) {
         bool uniqueID = true;
         unsigned long long result;
 
@@ -165,6 +170,8 @@ namespace EngineCore {
         // Assign object with UUID for checking
         obj->SetUUID(result);
         objectCreationQueue.push_back(obj);
+
+        return obj;
     }
 
     void ObjectHandler::RemoveObject(std::vector<Object*>::iterator location){

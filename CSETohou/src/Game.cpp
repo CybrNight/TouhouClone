@@ -7,9 +7,6 @@
 #include "EnemySpawner.h"
 #include "BurstEnemy.h"
 #include <SDL_mixer.h>
-#include "AssetManager.h"
-#include "Input.h"
-#include "UILabel.h"
 #include <SDL_ttf.h>
 
 using EngineCore::Input;
@@ -46,6 +43,8 @@ void Game::Tick() {
 
         Mix_VolumeMusic(volume);
     }
+
+    volumeLabel->SetText("Volume:" + std::to_string(volume));
 }
 
 void Game::Init(std::shared_ptr<SDL_Renderer> renderer) {
@@ -82,7 +81,7 @@ bool Game::Start() {
             std::cout << "Game: start()\n";
             oHandler->Instantiate(new Player(GAME_WIDTH / 2, GAME_HEIGHT - GRID_SIZE * 2));
             oHandler->Instantiate(new EnemySpawner());
-            oHandler->Instantiate(new UILabel(0, 0, 200, 100, "Test"));
+            volumeLabel = dynamic_cast<UILabel*>(oHandler->Instantiate(new UILabel(MAX_X+GRID_SIZE*2, GRID_SIZE*8, 128, 32, "Volume")));
         }
 
         return true;

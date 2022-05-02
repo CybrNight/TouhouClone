@@ -38,6 +38,7 @@ namespace EngineCore {
         void Init(std::shared_ptr<SDL_Renderer> renderer);
     public:
         static ObjectHandler* GetInstance(std::shared_ptr<SDL_Renderer> renderer = nullptr);
+        inline SDL_Renderer* GetRenderer() const { return renderer.get(); };
 
         /** Called every frame from GameWindow timer (~60 times per second)
          * @brief tick
@@ -54,12 +55,13 @@ namespace EngineCore {
          * @param painter
          */
         void Render();
+        void RenderUI();
 
         /** Handles adding objects GameObject list
          * @brief add_object
          * @param obj
          */
-        void Instantiate(Object* obj);
+        Object* Instantiate(Object* obj);
 
         /** Handles removing objects from GameObject list
          * @brief remove_object

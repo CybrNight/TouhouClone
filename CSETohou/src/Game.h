@@ -2,6 +2,8 @@
 
 #include <SDL.h>
 #include "AssetManager.h"
+#include "Input.h"
+#include "UILabel.h"
 
 class GameObject;
 
@@ -20,6 +22,8 @@ class Game {
     SDL_FRect right{ 0, MAX_Y, SCREEN_WIDTH, SCREEN_HEIGHT };
     SDL_FRect up{ 0, 0, SCREEN_WIDTH, MIN_Y };
     SDL_FRect down{ MAX_X, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
+    UI::UILabel* volumeLabel;
 
     Game();
     ~Game() {}
