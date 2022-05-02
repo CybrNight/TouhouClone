@@ -153,7 +153,8 @@
     <ClCompile Include="engine\core\AssetManager.cpp" />
     <ClCompile Include="engine\builtin\GameObject.cpp" />
     <ClCompile Include="engine\builtin\Object.cpp" />
-    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="engine\builtin\Scene.cpp" />
+    <ClCompile Include="src\scene\Game.cpp" />
     <ClCompile Include="engine\core\ObjectHandler.cpp" />
     <ClCompile Include="engine\interface\IDamagable.cpp" />
     <ClCompile Include="engine\Main.cpp" />
@@ -175,7 +176,8 @@
     <ClInclude Include="engine\core\AssetManager.h" />
     <ClInclude Include="engine\builtin\GameObject.h" />
     <ClInclude Include="engine\builtin\Object.h" />
-    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="engine\builtin\Scene.h" />
+    <ClInclude Include="src\scene\Game.h" />
     <ClInclude Include="engine\core\ObjectHandler.h" />
     <ClInclude Include="engine\builtin\Tag.h" />
     <ClInclude Include="engine\builtin\Defs.h" />

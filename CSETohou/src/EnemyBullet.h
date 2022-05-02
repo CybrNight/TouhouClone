@@ -1,7 +1,7 @@
 #pragma once
 
-#include "gameobject.h"
-#include "game.h"
+#include "GameObject.h"
+#include "Game.h"
 #include <iostream>
 
 class EnemyBullet : public GameObject

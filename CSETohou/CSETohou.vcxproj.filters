@@ -87,7 +87,7 @@
     <ClCompile Include="engine\core\ObjectHandler.cpp">
       <Filter>Source Files\engine\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game.cpp">
+    <ClCompile Include="src\scene\Game.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
     <ClCompile Include="engine\builtin\UIObject.cpp">
@@ -103,6 +103,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="engine\builtin\UIButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\builtin\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -152,7 +155,7 @@
     <ClInclude Include="engine\core\AssetManager.h">
       <Filter>Header Files\engine\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game.h">
+    <ClInclude Include="src\scene\Game.h">
       <Filter>Header Files\src</Filter>
     </ClInclude>
     <ClInclude Include="engine\builtin\Defs.h">
@@ -168,6 +171,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="engine\builtin\UIButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\builtin\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
