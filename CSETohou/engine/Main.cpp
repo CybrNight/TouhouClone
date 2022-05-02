@@ -95,7 +95,6 @@ void Tick() {
 }
 
 void Input(SDL_Event& e) {
-    //handler->InputEvent(e);
     input->InputEvent(e);
 }
 

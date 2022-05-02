@@ -28,7 +28,7 @@ class GameObject: public virtual Object
 
 protected:
     float x, y;
-    SDL_Texture* sprite;
+    std::shared_ptr<SDL_Texture> sprite;
     SDL_Rect drawRect;
     std::string sprName;
 
@@ -127,7 +127,7 @@ public:
     inline float GetRotation() const {return rotation; }
     inline std::string GetSpriteName() {return sprName;}
     
-    void LoadSprite(SDL_Texture* sprite);
+    void LoadSprite(std::shared_ptr<SDL_Texture> sprite);
     inline void SetX(float x) {this->x = x;}
     inline void SetY(float y) { this->y = y;}
     inline void SetSpeed(float speed) {this->speed = speed;}

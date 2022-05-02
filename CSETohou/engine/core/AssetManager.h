@@ -43,7 +43,7 @@ namespace EngineCore {
         /// </summary>
         /// <param name="sprName"></param>
         /// <returns></returns>
-        SDL_Texture* GetCachedSprite(std::string sprName);
+        std::shared_ptr<SDL_Texture> GetCachedSprite(std::string sprName);
 
         /// <summary>
         /// Retrieve previously loaded music from memory

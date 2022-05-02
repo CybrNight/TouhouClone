@@ -9,29 +9,25 @@ void GameObject::Move(float speed, float direction)
     y -= speed * std::sin(direction * M_PI / 180);
 }
 
-/*QRectF GameObject::GetBounds() const
-{
-    return QRectF(GetX(), GetY(), width, height);
-}*/
-
 void GameObject::Move()
 {
     Move(this->speed, this->direction);
 }
 
 void GameObject::Render(SDL_Renderer* renderer) {
+    SDL_FRect boundsRect = { x, y, width, height };
 
     if (sprite == NULL) {
         SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
-        SDL_RenderFillRectF(renderer, new SDL_FRect{ GetX(), GetY(), width, height });
+        SDL_RenderFillRectF(renderer, &boundsRect);
     }
     else {
-        SDL_RenderCopyExF(renderer, sprite, new SDL_Rect{0, 0, drawRect.w, drawRect.h}, new SDL_FRect{GetX(), GetY(), width, height}, rotation, NULL, SDL_FLIP_NONE);
+        SDL_RenderCopyExF(renderer, sprite.get(), &drawRect, &boundsRect, rotation, NULL, SDL_FLIP_NONE);
     }
 }
 
 SDL_FRect GameObject::GetBounds() const {
-    return SDL_FRect{x, y, width, height };
+    return SDL_FRect{ x, y, width, height };
 }
 
 void GameObject::DrawBounds(SDL_Renderer* renderer)
@@ -106,11 +102,11 @@ GameObject* GameObject::FindWithTag(Tag tag)
 }
 
 
-void GameObject::LoadSprite(SDL_Texture* sprite)
+void GameObject::LoadSprite(std::shared_ptr<SDL_Texture> sprite)
 {
     this->sprite = sprite;
     int w, h;
-    SDL_QueryTexture(sprite, NULL, NULL, &w, &h);
+    SDL_QueryTexture(sprite.get(), NULL, NULL, &w, &h);
     drawRect = {0, 0, w, h};
     width = w;
     height = h;

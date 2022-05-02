@@ -39,10 +39,10 @@ Game* Game::GetInstance(std::shared_ptr<SDL_Renderer> renderer)
 
 void Game::Render() {
     SDL_SetRenderDrawColor(renderer.get(), 79, 0, 129, 128);
-    SDL_RenderFillRectF(renderer.get(), new SDL_FRect{ 0, 0, MIN_X, SCREEN_HEIGHT });
-    SDL_RenderFillRectF(renderer.get(), new SDL_FRect{ 0, MAX_Y, SCREEN_WIDTH, SCREEN_HEIGHT });
-    SDL_RenderFillRectF(renderer.get(), new SDL_FRect{ 0, 0, SCREEN_WIDTH, MIN_Y });
-    SDL_RenderFillRectF(renderer.get(), new SDL_FRect{ MAX_X, 0, SCREEN_WIDTH, SCREEN_HEIGHT });
+    SDL_RenderFillRectF(renderer.get(), &left);
+    SDL_RenderFillRectF(renderer.get(), &right);
+    SDL_RenderFillRectF(renderer.get(), &up);
+    SDL_RenderFillRectF(renderer.get(), &down);
 
 }
 
@@ -70,7 +70,7 @@ bool Game::Start() {
 bool Game::LoadGameAssets()
 {
     EngineCore::AssetManager* temp = EngineCore::AssetManager::GetInstance();
-    int check = 0;
+    int check = -1;
 
     check -= temp->CacheSprite("sprPlayer");
     check -= temp->CacheSprite("sprEnemy");

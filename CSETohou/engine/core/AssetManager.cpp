@@ -51,11 +51,11 @@ namespace EngineCore {
         this->renderer = renderer;
     }
 
-    SDL_Texture* AssetManager::GetCachedSprite(std::string sprName) {
+    std::shared_ptr<SDL_Texture> AssetManager::GetCachedSprite(std::string sprName) {
         auto temp = spriteCache.find(sprName);
         if (temp != spriteCache.end()) {
             std::cout << "AssetManager: Retrieved sprite (" << sprName << ") from spriteCache\n";
-            return (*temp).second.get();
+            return (*temp).second;
         }
         else {
             std::cout << "AssetManager: Did not find sprite (" << sprName << ") in spriteCache\n";
