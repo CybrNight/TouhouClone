@@ -43,7 +43,7 @@ void TrishotEnemy::Tick(){
             canShoot = true;
         }
 
-        speed = 1;
+        speed = 2;
         float width = 8;
 
 
@@ -61,6 +61,7 @@ void TrishotEnemy::Tick(){
 
             shootTimer = 0;
         }
+        DestroyOutside();
     }
 
 
@@ -69,10 +70,9 @@ void TrishotEnemy::Tick(){
         speed = 8;
         direction = 90;
         std::cout << direction << '\n';
-        DestroyOutside();
     }
 
-    if (health == 0) {
+    if (health <= 0) {
         Destroy();
     }
 
