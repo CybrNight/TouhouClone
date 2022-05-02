@@ -79,8 +79,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\src;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine\core;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine\builtin;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine\interface;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine;$(IncludePath)</IncludePath>
-    <ExternalIncludePath>C:\CXXLib\SDL2_mixer-2.0.4\include;C:\CXXLib\SDL2_image-2.0.5\include;C:\CXXLib\SDL2-2.0.20\include;$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>C:\CXXLib\SDL2_mixer-2.0.4\lib\x64;C:\CXXLib\SDL2_image-2.0.5\lib\x64;C:\CXXLib\SDL2-2.0.20\lib\x64;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>C:\CXXLib\SDL2_ttf-2.0.18\include;C:\CXXLib\SDL2_mixer-2.0.4\include;C:\CXXLib\SDL2_image-2.0.5\include;C:\CXXLib\SDL2-2.0.20\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>C:\CXXLib\SDL2_ttf-2.0.18\lib\x64;C:\CXXLib\SDL2_mixer-2.0.4\lib\x64;C:\CXXLib\SDL2_image-2.0.5\lib\x64;C:\CXXLib\SDL2-2.0.20\lib\x64;$(LibraryPath)</LibraryPath>
     <SourcePath>C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine\core;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,7 +128,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

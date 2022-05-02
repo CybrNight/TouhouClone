@@ -12,6 +12,7 @@ and may not be redistributed without written permission.*/
 #include <SDL_mixer.h>
 #include "AssetManager.h"
 #include "Input.h"
+#include <SDL_ttf.h>
 
 
 //The window we'll be rendering to
@@ -36,9 +37,13 @@ bool Init()
     {
         printf("Main: SDL could not initialize! SDL Error: %s\n", SDL_GetError());
         success = false;
-    }
-    else
-    {
+    }else{
+        if (TTF_Init() == -1) {
+            printf("TTF_Init: %s\n", TTF_GetError());
+            exit(2);
+        }
+
+
         //Set texture filtering to linear
         if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
         {
