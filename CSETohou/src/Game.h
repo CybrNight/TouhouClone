@@ -14,6 +14,8 @@ class Game {
 
     void Init(std::shared_ptr<SDL_Renderer> renderer);
 
+    int volume = 32;
+
     SDL_FRect left{ 0, 0, MIN_X, SCREEN_HEIGHT };
     SDL_FRect right{ 0, MAX_Y, SCREEN_WIDTH, SCREEN_HEIGHT };
     SDL_FRect up{ 0, 0, SCREEN_WIDTH, MIN_Y };

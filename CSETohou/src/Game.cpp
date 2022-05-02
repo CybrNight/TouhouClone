@@ -8,6 +8,9 @@
 #include "BurstEnemy.h"
 #include <SDL_mixer.h>
 #include "AssetManager.h"
+#include "Input.h"
+
+using EngineCore::Input;
 
 float Time::DELTA_TIME;
 float Time::SECOND;
@@ -20,7 +23,25 @@ Game::Game()
 }
 
 void Game::Tick() {
+    Input* input = Input::GetInstance();
+
+    if (input->GetKey(SDL_SCANCODE_MINUS)) {
+        volume--;
+
+        if (volume < 0)
+            volume = 0;
+
+        Mix_VolumeMusic(volume);
+    }
     
+    if (input->GetKey(SDL_SCANCODE_EQUALS)) {
+        volume++;
+
+        if (volume > 128)
+            volume = 128;
+
+        Mix_VolumeMusic(volume);
+    }
 }
 
 void Game::Init(std::shared_ptr<SDL_Renderer> renderer) {
@@ -53,6 +74,7 @@ bool Game::Start() {
 
         if (Mix_PlayingMusic() == 0) {
             Mix_PlayMusic(music, -1);
+            Mix_VolumeMusic(volume);
 
             std::cout << "Game: start()\n";
             oHandler->Instantiate(new Player(GAME_WIDTH / 2, GAME_HEIGHT - GRID_SIZE * 2));
