@@ -50,6 +50,7 @@ namespace EngineCore {
             Object* temp = objectProcessQueue.at(i);
             if (temp->IsDestroyed()) {
                 RemoveObject(temp);
+                delete temp;
                 objectProcessQueue.shrink_to_fit();
                 continue;
             }
