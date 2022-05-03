@@ -118,7 +118,7 @@ namespace CybrEngine {
         }
 
         musicCache.insert(std::make_pair(musicName, temp));
-        std::cout << "AssetManager: Added sprite (" << musicName << ") to spriteCache\n";
+        std::cout << "AssetManager: Added music (" << musicName << ") to musicCache\n";
         return true;
     }
 

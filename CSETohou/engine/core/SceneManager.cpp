@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include "ObjectHandler.h"
+#include "AssetManager.h"
 #include <SDL_mixer.h>
 #include <unordered_map>
 
@@ -40,6 +41,7 @@ namespace CybrEngine {
             loadNewScene = true;
             sceneToLoad = temp;
             ObjectHandler* handler = ObjectHandler::GetInstance();
+            AssetManager::GetInstance()->ClearCache();
             handler->DestroyAll();
             return temp->Init();
         }
