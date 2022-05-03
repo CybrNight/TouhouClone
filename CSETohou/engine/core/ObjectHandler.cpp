@@ -45,9 +45,6 @@ namespace CybrEngine {
     }
 
     void ObjectHandler::Tick() {
-        //This causes a memory leak
-        //TOO BAD I AIN'T FIXING THIS AND YOU CAN'T MAKE ME
-        //Freeing this memory causes a crash and I don't care enough to fix it
         if (destroyAll) {
             objectProcessQueue.clear();
             gameObjectList.clear();
