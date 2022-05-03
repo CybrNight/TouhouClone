@@ -137,7 +137,7 @@ int main(int argc, char* args[]) {
         EngineCore::SceneManager::CacheScene("Game", new Game());
         EngineCore::SceneManager::CacheScene("Game2", new Game2());
 
-        if (EngineCore::SceneManager::LoadScene("Game")) {
+        if (EngineCore::SceneManager::LoadScene("Game2")) {
             std::cout << "Loaded default scene. Started Game\n";
             //While application is running
             while (!quit)
