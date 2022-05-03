@@ -49,7 +49,7 @@ void Player::Start(){
 }
 
 void Player::Tick(){
-    EngineCore::Input& input = *(EngineCore::Input::GetInstance());
+    CybrEngine::Input& input = *(CybrEngine::Input::GetInstance());
 
     if (input.GetKey(SDL_SCANCODE_LEFT)) {
         velX = -speed;

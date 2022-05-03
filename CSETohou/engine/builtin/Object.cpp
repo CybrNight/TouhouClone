@@ -11,11 +11,11 @@ Object::~Object() {
 }
 
 void Object::Init() {
-	Start();
+
 }
 
 Object* Object::Instantiate(Object* obj)
 {
-	EngineCore::ObjectHandler::GetInstance()->Instantiate(obj);
+	CybrEngine::ObjectHandler::GetInstance()->Instantiate(obj);
 	return obj;
 }

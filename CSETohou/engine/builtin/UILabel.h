@@ -18,7 +18,7 @@ namespace UI {
         ~UILabel() {
             SDL_DestroyTexture(textTexture);
             SDL_FreeSurface(surface);
-            delete font;
+            TTF_CloseFont(font);
         }
 
         void Tick();

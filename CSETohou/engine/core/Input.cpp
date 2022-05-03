@@ -1,7 +1,7 @@
 #include "Input.h"
 #include <iostream>
 
-namespace EngineCore {
+namespace CybrEngine {
     Input* Input::instance;
 
     Input::~Input()
@@ -20,7 +20,8 @@ namespace EngineCore {
                   {SDL_SCANCODE_Z, 0},
                   {SDL_SCANCODE_LSHIFT, 0},
                   {SDL_SCANCODE_MINUS, 0},
-                  {SDL_SCANCODE_EQUALS, 0} };
+                  {SDL_SCANCODE_EQUALS, 0},
+                  {SDL_SCANCODE_RETURN, 0} };
         mouseButtons = new int[3];
     }
 

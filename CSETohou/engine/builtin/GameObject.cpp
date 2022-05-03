@@ -96,9 +96,9 @@ GameObject::GameObject(float x, float y, Tag tag, float width, float height): Ob
 
 GameObject::~GameObject() {}
 
-GameObject* GameObject::FindWithTag(Tag tag)
+std::shared_ptr<GameObject> GameObject::FindWithTag(Tag tag)
 {
-    return dynamic_cast<GameObject*>(EngineCore::ObjectHandler::GetInstance()->GetObject(tag));
+    return std::dynamic_pointer_cast<GameObject>(CybrEngine::ObjectHandler::GetInstance()->GetObject(tag));
 }
 
 

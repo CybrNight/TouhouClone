@@ -4,7 +4,7 @@
 
 namespace fs = std::filesystem;
 
-namespace EngineCore {
+namespace CybrEngine {
     AssetManager* AssetManager::sceneToLoad;
 
     SDL_Texture* AssetManager::LoadSprite(std::string sprName) {

@@ -10,8 +10,9 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
-using EngineCore::SceneManager;
-using EngineCore::Input;
+using CybrEngine::SceneManager;
+using CybrEngine::Input;
+using CybrEngine::AssetManager;
 
 using UI::UILabel;
 
@@ -23,8 +24,8 @@ Game2::Game2()
 void Game2::Tick() {
     Input* input = Input::GetInstance();
 
-    if (input->GetKey(SDL_SCANCODE_MINUS)) {
-        SceneManager::LoadScene("Game");
+    if (input->GetKeyDown(SDL_SCANCODE_RETURN)) {
+        SceneManager::LoadScene("Game2");
     }
 
     //volumeLabel->SetText("Volume:" + std::to_string(volume));
@@ -39,15 +40,15 @@ void Game2::Render(SDL_Renderer* renderer) {
 }
 
 bool Game2::Start() {
-    EngineCore::ObjectHandler* oHandler = EngineCore::ObjectHandler::GetInstance();
-    Mix_Music* music = EngineCore::AssetManager::GetInstance()->GetCachedMusic("bgm02");
+    CybrEngine::ObjectHandler* oHandler = CybrEngine::ObjectHandler::GetInstance();
+    Mix_Music* music = AssetManager::GetInstance()->GetCachedMusic("bgmtitle");
 
     if (Mix_PlayingMusic() == 0) {
         Mix_PlayMusic(music, -1);
         Mix_VolumeMusic(volume);
 
         std::cout << "Game2: start()\n";
-        volumeLabel = dynamic_cast<UILabel*>(oHandler->Instantiate(new UILabel(MAX_X+GRID_SIZE*2, GRID_SIZE*8, 128, 32, "Volume")));
+        volumeLabel = std::dynamic_pointer_cast<UILabel>(oHandler->Instantiate(new UILabel(GAME_WIDTH/2 - 64, GAME_HEIGHT / 2 - 16, 128, 32, "GLORIUS GAME!")));
 
     }
     return true;
@@ -55,14 +56,14 @@ bool Game2::Start() {
 
 bool Game2::LoadSceneAssets()
 {
-    EngineCore::AssetManager* temp = EngineCore::AssetManager::GetInstance();
+    AssetManager* temp = AssetManager::GetInstance();
     int check = -1;
 
     check -= temp->CacheSprite("sprPlayer");
     check -= temp->CacheSprite("sprEnemy");
     check -= temp->CacheSprite("sprTrishotEnemy");
     check -= temp->CacheSprite("sprBurstEnemy");
-    check -= temp->CacheMusic("bgm02", "ogg");
+    check -= temp->CacheMusic("bgmtitle", "ogg");
 
     return check != 0;
 }

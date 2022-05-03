@@ -9,7 +9,7 @@
 
 using std::unique_ptr;
 
-namespace EngineCore {
+namespace CybrEngine {
     class AssetManager {
         //Static sceneToLoad to self
         static AssetManager* sceneToLoad;

@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include <string>
 
-namespace EngineCore {
+namespace CybrEngine {
     class SceneManager{
     private:
         static Scene* sceneToLoad;

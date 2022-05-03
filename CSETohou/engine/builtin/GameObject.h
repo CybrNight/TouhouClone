@@ -114,7 +114,7 @@ public:
     GameObject(float x, float y, Tag tag, float width = 0, float height = 0);
     virtual ~GameObject() = 0;
 
-    GameObject* FindWithTag(Tag tag);
+    std::shared_ptr<GameObject> FindWithTag(Tag tag);
 
     inline float GetX() const {return x;}
     inline float GetY() const { return y; }

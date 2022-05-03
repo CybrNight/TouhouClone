@@ -3,7 +3,7 @@
 #include <SDL_mixer.h>
 #include <unordered_map>
 
-namespace EngineCore {
+namespace CybrEngine {
     Scene* SceneManager::activeScene = nullptr;
     Scene* SceneManager::sceneToLoad = nullptr;
     bool SceneManager::loadNewScene = false;
@@ -22,7 +22,6 @@ namespace EngineCore {
     bool SceneManager::CacheScene(std::string name, Scene* scene) {
         auto s = scenes.find(name);
         if (s != scenes.end()){
-            delete scene;
             return false;
         }
         scenes.insert(std::make_pair(name, scene));

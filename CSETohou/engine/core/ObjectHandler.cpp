@@ -9,8 +9,9 @@
 #include <algorithm>
 
 using UI::UIObject;
+using std::shared_ptr;
 
-namespace EngineCore {
+namespace CybrEngine {
     ObjectHandler* ObjectHandler::instance;
 
     ObjectHandler::ObjectHandler() {
@@ -52,6 +53,7 @@ namespace EngineCore {
             gameObjectList.clear();
             uiObjectList.clear();
             destroyAll = false;
+            return;
         }
         else {
             CreateAllQueuedObjects();
@@ -59,10 +61,9 @@ namespace EngineCore {
         // Check for objects that have been marked for deletion from last cycle
         // Must happen here before temp's state is modified or used by other objects
         for (size_t i = 0; i < objectProcessQueue.size(); i++) {
-            Object* temp = objectProcessQueue.at(i);
+            shared_ptr<Object> temp = objectProcessQueue.at(i);
             if (temp->IsDestroyed()) {
                 RemoveObject(temp);
-                delete temp;
                 objectProcessQueue.shrink_to_fit();
                 continue;
             }
@@ -77,7 +78,7 @@ namespace EngineCore {
             GameObject* first = collisionQueue.at(i);
 
             // Check that GameObject exists or that it's actually moving
-            if (first == NULL || first->GetSpeed() <= 0)
+            if (first == nullptr || first->GetSpeed() <= 0)
                 continue;
 
             // If found valid first, then iterate again
@@ -85,7 +86,7 @@ namespace EngineCore {
                 GameObject* other = collisionQueue.at(j);
 
                 // Check that other 
-                if (other == NULL)
+                if (other == nullptr)
                     continue;
 
                 // If we are comparing to self then skip
@@ -130,7 +131,7 @@ namespace EngineCore {
         for (size_t i = 0; i < gameObjectList.size(); i++) {
             if (i < gameObjectList.size()) {
                 GameObject* temp = gameObjectList.at(i);
-                if (temp != NULL) {
+                if (temp != nullptr) {
                     temp->Render(renderer.get());
                     temp->DrawBounds(renderer.get());
                 }
@@ -145,14 +146,14 @@ namespace EngineCore {
         for (size_t i = 0; i < uiObjectList.size(); i++) {
             if (i < uiObjectList.size()) {
                 UIObject* temp = uiObjectList.at(i);
-                if (temp != NULL) {
+                if (temp != nullptr) {
                     temp->Render(renderer.get());
                 }
             }
         }
     }
 
-    Object* ObjectHandler::Instantiate(Object* obj) {
+    shared_ptr<Object> ObjectHandler::Instantiate(Object* obj) {
         bool uniqueID = true;
         unsigned long long result;
 
@@ -178,14 +179,16 @@ namespace EngineCore {
 
         // Assign object with UUID for checking
         obj->SetUUID(result);
-        objectCreationQueue.push_back(obj);
 
-        return obj;
+        shared_ptr<Object> objPtr(obj);
+        objectCreationQueue.push_back(objPtr);
+
+        return objPtr;
     }
 
-    void ObjectHandler::RemoveObject(std::vector<Object*>::iterator location){
+    void ObjectHandler::RemoveObject(std::vector<shared_ptr<Object>>::iterator location){
         // Remove GameObject from objects list
-        if (auto gameObject = dynamic_cast<GameObject*>(*location)) {
+        if (auto gameObject = dynamic_cast<GameObject*>(location->get())) {
             auto temp = std::find(gameObjectList.begin(), gameObjectList.end(), gameObject);
             gameObjectList.erase(temp);
         }
@@ -202,20 +205,20 @@ namespace EngineCore {
     { // Setup all objects queued for
       // creation last cycle
         while (objectCreationQueue.size() > 0) {
-            Object* obj = objectCreationQueue.back();
+            std::shared_ptr<Object> objPtr = objectCreationQueue.back();
 
-            if (obj == NULL)
+            if (objPtr == nullptr)
                 return;
 
-            obj->Init();
-            obj->Start();
+            objPtr->Init();
+            objPtr->Start();
 
             // After initialzing object add it to process queue and remove it from
             // creation queue
-            objectProcessQueue.push_back(obj);
+            objectProcessQueue.push_back(objPtr);
 
 
-            if (auto gameObject = dynamic_cast<GameObject*>(obj)) {
+            if (auto gameObject = dynamic_cast<GameObject*>(objPtr.get())) {
                 std::string name = gameObject->GetSpriteName();
                 if (name != "none") {
                     gameObject->LoadSprite(AssetManager::GetInstance()->GetCachedSprite(name));
@@ -223,7 +226,7 @@ namespace EngineCore {
                 gameObjectList.push_back(gameObject);
             }
 
-            if (auto uiObject = dynamic_cast<UIObject*>(obj)) {
+            if (auto uiObject = dynamic_cast<UIObject*>(objPtr.get())) {
                 uiObjectList.push_back(uiObject);
             }
 
@@ -242,7 +245,7 @@ namespace EngineCore {
     }
 
 
-    void ObjectHandler::RemoveObject(Object* obj) {
+    void ObjectHandler::RemoveObject(shared_ptr<Object> obj) {
         RemoveObject(find(objectProcessQueue.begin(), objectProcessQueue.end(), obj));
     }
 
@@ -250,14 +253,14 @@ namespace EngineCore {
         RemoveObject(GetObject(index));
     }
 
-    Object* ObjectHandler::GetObject(int index) {
+    shared_ptr<Object> ObjectHandler::GetObject(int index) {
         return objectProcessQueue.at(index);
     }
 
-    Object* ObjectHandler::GetObject(Tag tag) {
+    shared_ptr<Object> ObjectHandler::GetObject(Tag tag) {
         for (size_t i = 0; i < objectProcessQueue.size(); i++) {
-            Object* temp = objectProcessQueue.at(i);
-            if (temp->GetTag() == tag) {
+            shared_ptr<Object> temp = objectProcessQueue.at(i);
+            if (temp != nullptr && temp->GetTag() == tag) {
                 return temp;
             }
         }

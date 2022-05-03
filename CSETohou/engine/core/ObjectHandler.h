@@ -9,7 +9,7 @@
 #include <memory>
 #include "GameObject.h"
 
-namespace EngineCore {
+namespace CybrEngine {
     /**
      * @brief Handler class that handles input, adding/removing objects, rendering,
      * and updating all GameObjects.
@@ -22,8 +22,8 @@ namespace EngineCore {
         // Separate GameObjects from their components for faster rendering and
         // collision check times (Colliders only need to check against other Colliders
         // for example)
-        std::vector<Object*> objectCreationQueue;
-        std::vector<Object*> objectProcessQueue;
+        std::vector<std::shared_ptr<Object>> objectCreationQueue;
+        std::vector<std::shared_ptr<Object>> objectProcessQueue;
         std::vector<UI::UIObject*> uiObjectList;
         std::vector<GameObject*> gameObjectList;
 
@@ -31,7 +31,7 @@ namespace EngineCore {
 
         // Private original definition of remove_object that takes in iterator from
         // public facing versions
-        void RemoveObject(std::vector<Object*>::iterator location);
+        void RemoveObject(std::vector<std::shared_ptr<Object>>::iterator location);
         void CreateAllQueuedObjects();
 
         ObjectHandler();
@@ -64,13 +64,13 @@ namespace EngineCore {
          * @brief add_object
          * @param obj
          */
-        Object* Instantiate(Object* obj);
+        std::shared_ptr<Object> Instantiate(Object* obj);
 
         /** Handles removing objects from GameObject list
          * @brief remove_object
          * @param obj
          */
-        void RemoveObject(Object* obj);
+        void RemoveObject(std::shared_ptr<Object> obj);
 
         /** Handles removing objects from GameObject list
          * @brief remove_object
@@ -86,8 +86,8 @@ namespace EngineCore {
          * @param index
          * @return GameObject*
          */
-        Object* GetObject(int index);
+        std::shared_ptr<Object> GetObject(int index);
 
-        Object* GetObject(Tag tag);
+        std::shared_ptr<Object> GetObject(Tag tag);
     };
 }

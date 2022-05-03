@@ -20,7 +20,7 @@ class Game2: public virtual Scene {
     SDL_FRect up{ 0, 0, SCREEN_WIDTH, MIN_Y };
     SDL_FRect down{ MAX_X, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-    UI::UILabel* volumeLabel = NULL;
+    std::shared_ptr<UI::UILabel> volumeLabel = NULL;
 
 
 public:

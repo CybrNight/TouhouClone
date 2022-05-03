@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include <SDL_mouse.h>
 
-namespace EngineCore {
+namespace CybrEngine {
     class Input
     {
 

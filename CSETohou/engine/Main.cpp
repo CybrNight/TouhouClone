@@ -16,6 +16,8 @@ and may not be redistributed without written permission.*/
 #include "Input.h"
 #include <SDL_ttf.h>
 
+using namespace CybrEngine;
+
 
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
@@ -23,9 +25,9 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 std::shared_ptr<SDL_Renderer> renderer = NULL;
 
-EngineCore::ObjectHandler* handler;
-EngineCore::AssetManager* aManager;
-EngineCore::Input* input;
+CybrEngine::ObjectHandler* handler;
+AssetManager* aManager;
+CybrEngine::Input* input;
 
 bool Init()
 {
@@ -96,11 +98,11 @@ void Close()
 }
 
 void Tick() {
-    EngineCore::SceneManager::Tick();
+    SceneManager::Tick();
     handler->Tick();
 }
 
-void Input(SDL_Event& e) {
+void InputEvent(SDL_Event& e) {
     input->InputEvent(e);
 }
 
@@ -109,7 +111,7 @@ void Render() {
     SDL_RenderClear(renderer.get());
 
     handler->Render();
-    EngineCore::SceneManager::Render(renderer.get());
+    SceneManager::Render(renderer.get());
     handler->RenderUI();
     //Clear screen
 
@@ -130,14 +132,14 @@ int main(int argc, char* args[]) {
         SDL_Event e;
 
         //Get reference to singletons
-        handler = EngineCore::ObjectHandler::GetInstance(renderer);
-        aManager = EngineCore::AssetManager::GetInstance (renderer);
-        input = EngineCore::Input::GetInstance();
+        handler = CybrEngine::ObjectHandler::GetInstance(renderer);
+        aManager = AssetManager::GetInstance (renderer);
+        input = Input::GetInstance();
 
-        EngineCore::SceneManager::CacheScene("Game", new Game());
-        EngineCore::SceneManager::CacheScene("Game2", new Game2());
+        SceneManager::CacheScene("Game", new Game());
+        SceneManager::CacheScene("Game2", new Game2());
 
-        if (EngineCore::SceneManager::LoadScene("Game2")) {
+        if (SceneManager::LoadScene("Game2")) {
             std::cout << "Loaded default scene. Started Game\n";
             //While application is running
             while (!quit)
@@ -151,7 +153,7 @@ int main(int argc, char* args[]) {
                         quit = true;
                     }
 
-                    Input(e);
+                    InputEvent(e);
 
                 }
 
@@ -165,7 +167,7 @@ int main(int argc, char* args[]) {
 
                 float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
                 //Cap to 60FPS
-                SDL_Delay(floor(16.666f - elapsedMS));
+                SDL_Delay((Uint32)floor(16.666f - elapsedMS));
                 Time::DELTA_TIME = floor(16.666f - elapsedMS) / 1000;
                 Time::SECOND = Time::FRAMERATE;
             }

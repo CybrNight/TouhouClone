@@ -6,7 +6,7 @@
 
 bool Scene::Init()
 {
-    EngineCore::ObjectHandler* oHandler = EngineCore::ObjectHandler::GetInstance();
+    CybrEngine::ObjectHandler* oHandler = CybrEngine::ObjectHandler::GetInstance();
     if (LoadSceneAssets()) {
         return true;
     }

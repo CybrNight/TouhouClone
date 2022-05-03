@@ -20,13 +20,13 @@ class Game: public virtual Scene {
     SDL_FRect up{ 0, 0, SCREEN_WIDTH, MIN_Y };
     SDL_FRect down{ MAX_X, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-    UI::UILabel* volumeLabel;
-    Mix_Music* music;
+    std::shared_ptr<UI::UILabel> volumeLabel = nullptr;
+    Mix_Music* music = nullptr;
 
 
 public:
     Game();
-    ~Game() { delete music; delete volumeLabel; std::cout << "Destroyed Game\n"; }
+    ~Game() { std::cout << "Destroyed Game\n"; }
 
     // Called every time the window is re-drawn
     void Render(SDL_Renderer* renderer);
