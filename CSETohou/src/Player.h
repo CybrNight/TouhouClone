@@ -24,7 +24,7 @@ public:
     void DrawBounds(SDL_Renderer* painter) override;
 
     Player(float x, float y, Tag id = Tag::ObjectPlayer);
-    ~Player(){}
+    ~Player() { instance = NULL; }
 
     SDL_FRect GetBounds() const override;
     inline static Player* GetPlayer() { return instance; }

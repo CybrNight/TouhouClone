@@ -39,13 +39,13 @@ void BasicEnemy::Tick(){
 
 
         if (shootTimer >= Time::SECOND/fireRate && canShoot){
-            if (Player::GetPlayer() == NULL)
-                return;
+            Player* tempPlayer = Player::GetPlayer();
+            if (tempPlayer != NULL && !tempPlayer->IsDestroyed()) {
+                distX = tempPlayer->GetX() - GetX();
+                distY = -tempPlayer->GetY() - GetY();
 
-            distX = Player::GetPlayer()->GetX()-GetX();
-            distY = -(Player::GetPlayer()->GetY()-GetY());
-
-            angle = std::atan2(distY, distX) * 180/M_PI;
+                angle = std::atan2(distY, distX) * 180 / M_PI;
+            }
 
             Instantiate(new EnemyBullet(GetX(), GetY(), bulletColor, 5, angle, GRID_SIZE * 0.80));
             rotation = -angle;

@@ -4,18 +4,15 @@
 #include "AssetManager.h"
 #include "Input.h"
 #include "UILabel.h"
+#include "Scene.h"
+#include <iostream>
 
 class GameObject;
 
 class ObjectHandler;
 
 
-class Game {
-    static Game* instance;
-
-
-    void Init(std::shared_ptr<SDL_Renderer> renderer);
-
+class Game: public virtual Scene {
     int volume = 32;
 
     SDL_FRect left{ 0, 0, MIN_X, SCREEN_HEIGHT };
@@ -24,22 +21,19 @@ class Game {
     SDL_FRect down{ MAX_X, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
     UI::UILabel* volumeLabel;
+    Mix_Music* music;
 
-    Game();
-    ~Game() {}
 
 public:
-    std::shared_ptr<SDL_Renderer> renderer;
-
-    static Game* GetInstance(std::shared_ptr<SDL_Renderer> renderer = nullptr);
+    Game();
+    ~Game() { delete music; delete volumeLabel; std::cout << "Destroyed Game\n"; }
 
     // Called every time the window is re-drawn
-    void Render();
+    void Render(SDL_Renderer* renderer);
     
     // Called every frame
     void Tick();
-
     bool Start();
-    bool LoadGameAssets();
+    bool LoadSceneAssets();
 
 };

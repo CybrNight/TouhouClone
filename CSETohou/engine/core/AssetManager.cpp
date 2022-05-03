@@ -5,7 +5,7 @@
 namespace fs = std::filesystem;
 
 namespace EngineCore {
-    AssetManager* AssetManager::instance;
+    AssetManager* AssetManager::sceneToLoad;
 
     SDL_Texture* AssetManager::LoadSprite(std::string sprName) {
         // The final texture
@@ -130,10 +130,10 @@ namespace EngineCore {
     }
 
     AssetManager* AssetManager::GetInstance(std::shared_ptr<SDL_Renderer> renderer){
-        if (instance == NULL) {
-            instance = new AssetManager();
-            instance->Init(renderer);
+        if (sceneToLoad == NULL) {
+            sceneToLoad = new AssetManager();
+            sceneToLoad->Init(renderer);
         }
-        return instance;
+        return sceneToLoad;
     }
 }

@@ -14,7 +14,11 @@ namespace UI {
 
     public:
         UILabel(int x, int y, int width, int height, std::string text);
-        ~UILabel() {}
+        ~UILabel() {
+            SDL_DestroyTexture(textTexture);
+            SDL_FreeSurface(surface);
+            delete font;
+        }
 
         void Tick();
         void Render(SDL_Renderer* renderer);

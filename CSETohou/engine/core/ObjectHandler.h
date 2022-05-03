@@ -27,6 +27,8 @@ namespace EngineCore {
         std::vector<UI::UIObject*> uiObjectList;
         std::vector<GameObject*> gameObjectList;
 
+        bool destroyAll;
+
         // Private original definition of remove_object that takes in iterator from
         // public facing versions
         void RemoveObject(std::vector<Object*>::iterator location);
@@ -37,6 +39,7 @@ namespace EngineCore {
 
         void Init(std::shared_ptr<SDL_Renderer> renderer);
     public:
+        void DestroyAll();
         static ObjectHandler* GetInstance(std::shared_ptr<SDL_Renderer> renderer = nullptr);
         inline SDL_Renderer* GetRenderer() const { return renderer.get(); };
 

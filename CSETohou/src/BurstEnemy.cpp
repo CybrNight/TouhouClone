@@ -43,13 +43,13 @@ void BurstEnemy::Tick(){
         counter ++;
 
         if (counter >= Time::SECOND){
-            if (Player::GetPlayer() == NULL)
-                return;
+            Player* tempPlayer = Player::GetPlayer();
+            if (tempPlayer != NULL && !tempPlayer->IsDestroyed()) {
+                distX = Player::GetPlayer()->GetX() - GetX();
+                distY = -(Player::GetPlayer()->GetY() - GetY());
 
-            distX = Player::GetPlayer()->GetX()-GetX();
-            distY = -(Player::GetPlayer()->GetY()-GetY());
-
-            angle = std::atan2(distY, distX) * 180/M_PI;
+                angle = std::atan2(distY, distX) * 180 / M_PI;
+            }
 
             for (int i = 0; i < 180; i+=10){
                  float x = std::cos(i * M_PI/180) * width/2;

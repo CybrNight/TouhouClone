@@ -10,7 +10,7 @@ namespace EngineCore {
 
     private:
         Input() {}
-        ~Input() {}
+        ~Input();
         void Init();
 
         void MouseMotion(SDL_MouseMotionEvent& event);
@@ -26,7 +26,7 @@ namespace EngineCore {
         static Input* GetInstance();
 
         std::unordered_map<SDL_Scancode, int> keyMap;
-        int* mouseButtons;
+        int* mouseButtons = NULL;
 
         void InputEvent(SDL_Event& event);
         bool GetKey(SDL_Scancode key);

@@ -11,8 +11,8 @@ using std::unique_ptr;
 
 namespace EngineCore {
     class AssetManager {
-        //Static instance to self
-        static AssetManager* instance;
+        //Static sceneToLoad to self
+        static AssetManager* sceneToLoad;
 
         //Store pointer to shared renderer from main
         std::shared_ptr<SDL_Renderer> renderer;

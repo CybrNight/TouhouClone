@@ -2,8 +2,11 @@
 #include "ObjectHandler.h"
 #include "PlayerBullet.h"
 #include "Input.h"
-Player* Player::instance;
+#include "SceneManager.h"
+#include "Game.h"
 #include <iostream>
+
+Player* Player::instance;
 
 Player::Player(float x, float y, Tag tag): GameObject(x, y, tag), Object(tag) {
     width = 32;
@@ -11,9 +14,9 @@ Player::Player(float x, float y, Tag tag): GameObject(x, y, tag), Object(tag) {
 
     bulletColor = SDL_Color{255, 0, 255};
 
-    instance = this;
     this->sprName = "sprPlayer";
     std::cout << (int)this->GetTag();
+    instance = this;
 }
 
 void Player::DrawBounds(SDL_Renderer* renderer){
@@ -86,8 +89,10 @@ void Player::Tick(){
         shoot = false;
     }
 
-    if (input.GetKey(SDL_SCANCODE_LSHIFT)) {
+    if (input.GetKeyDown(SDL_SCANCODE_LSHIFT)) {
         speed = 2.5f;
+
+        EngineCore::SceneManager::LoadScene("Game");
     }
     
     if (input.GetKeyUp(SDL_SCANCODE_LSHIFT)) {
@@ -115,7 +120,7 @@ void Player::Tick(){
 
 void Player::Collision(GameObject* other){
     if (other->GetTag() == Tag::ObjectEnemyBullet){
-        //destroy();
+        //Destroy();
     }
 }
 

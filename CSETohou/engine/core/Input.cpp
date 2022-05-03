@@ -4,6 +4,12 @@
 namespace EngineCore {
     Input* Input::instance;
 
+    Input::~Input()
+    {
+        keyMap.clear();
+        delete[] mouseButtons;
+    }
+
     void Input::Init()
     {
         keyMap = { {SDL_SCANCODE_LEFT, 0},
@@ -130,7 +136,7 @@ namespace EngineCore {
     bool Input::GetKeyDown(SDL_Scancode key) {
         auto temp = keyMap.find(key);
         if (temp != keyMap.end()) {
-            if ((*temp).second <= 1 && (*temp).second >= 0) {
+            if ((*temp).second < 2 && (*temp).second >= 1) {
                 return true;
             }
         }

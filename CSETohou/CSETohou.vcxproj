@@ -78,7 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\src;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine\core;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine\builtin;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine\interface;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\src\scene;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\src;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine\core;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine\builtin;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine\interface;C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine;$(IncludePath)</IncludePath>
     <ExternalIncludePath>C:\CXXLib\SDL2_ttf-2.0.18\include;C:\CXXLib\SDL2_mixer-2.0.4\include;C:\CXXLib\SDL2_image-2.0.5\include;C:\CXXLib\SDL2-2.0.20\include;$(ExternalIncludePath)</ExternalIncludePath>
     <LibraryPath>C:\CXXLib\SDL2_ttf-2.0.18\lib\x64;C:\CXXLib\SDL2_mixer-2.0.4\lib\x64;C:\CXXLib\SDL2_image-2.0.5\lib\x64;C:\CXXLib\SDL2-2.0.20\lib\x64;$(LibraryPath)</LibraryPath>
     <SourcePath>C:\Users\naest\Documents\GitHub\CSETohou\CSETohou\engine\core;$(SourcePath)</SourcePath>
@@ -150,15 +150,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="engine\builtin\Scene.cpp" />
     <ClCompile Include="engine\core\AssetManager.cpp" />
     <ClCompile Include="engine\builtin\GameObject.cpp" />
     <ClCompile Include="engine\builtin\Object.cpp" />
-    <ClCompile Include="engine\builtin\Scene.cpp" />
-    <ClCompile Include="src\scene\Game.cpp" />
     <ClCompile Include="engine\core\ObjectHandler.cpp" />
     <ClCompile Include="engine\interface\IDamagable.cpp" />
     <ClCompile Include="engine\Main.cpp" />
     <ClCompile Include="engine\core\Input.cpp" />
+    <ClCompile Include="engine\core\SceneManager.cpp" />
     <ClCompile Include="src\BasicEnemy.cpp" />
     <ClCompile Include="src\BurstEnemy.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
@@ -166,6 +166,8 @@
     <ClCompile Include="src\EnemySpawner.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\PlayerBullet.cpp" />
+    <ClCompile Include="src\scene\Game.cpp" />
+    <ClCompile Include="src\scene\Game2.cpp" />
     <ClCompile Include="src\TestEnemy.cpp" />
     <ClCompile Include="src\TrishotEnemy.cpp" />
     <ClCompile Include="engine\builtin\UIObject.cpp" />
@@ -176,13 +178,13 @@
     <ClInclude Include="engine\core\AssetManager.h" />
     <ClInclude Include="engine\builtin\GameObject.h" />
     <ClInclude Include="engine\builtin\Object.h" />
-    <ClInclude Include="engine\builtin\Scene.h" />
-    <ClInclude Include="src\scene\Game.h" />
     <ClInclude Include="engine\core\ObjectHandler.h" />
     <ClInclude Include="engine\builtin\Tag.h" />
     <ClInclude Include="engine\builtin\Defs.h" />
     <ClInclude Include="engine\interface\IDamagable.h" />
     <ClInclude Include="engine\core\Input.h" />
+    <ClInclude Include="engine\core\SceneManager.h" />
+    <ClInclude Include="engine\builtin\Scene.h" />
     <ClInclude Include="src\BasicEnemy.h" />
     <ClInclude Include="src\BurstEnemy.h" />
     <ClInclude Include="src\Enemy.h" />
@@ -190,6 +192,8 @@
     <ClInclude Include="src\EnemySpawner.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\PlayerBullet.h" />
+    <ClInclude Include="src\scene\Game.h" />
+    <ClInclude Include="src\scene\Game2.h" />
     <ClInclude Include="src\TestEnemy.h" />
     <ClInclude Include="src\TrishotEnemy.h" />
     <ClInclude Include="engine\builtin\UIObject.h" />

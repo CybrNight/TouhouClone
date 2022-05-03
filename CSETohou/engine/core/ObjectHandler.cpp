@@ -45,8 +45,15 @@ namespace EngineCore {
 
     // THIS IS WHAT MANUALLY SYNCHRONIZING AN UPDATE LOOP LOOKS LIKE
     void ObjectHandler::Tick() {
-        CreateAllQueuedObjects();
-
+        if (destroyAll) {
+            objectProcessQueue.clear();
+            gameObjectList.clear();
+            uiObjectList.clear();
+            destroyAll = false;
+        }
+        else {
+            CreateAllQueuedObjects();
+        }
         // Check for objects that have been marked for deletion from last cycle
         // Must happen here before temp's state is modified or used by other objects
         for (size_t i = 0; i < objectProcessQueue.size(); i++) {
@@ -182,6 +189,11 @@ namespace EngineCore {
         }
 
         objectProcessQueue.erase(location);
+    }
+
+    void ObjectHandler::DestroyAll()
+    {
+        destroyAll = true;
     }
 
     void ObjectHandler::CreateAllQueuedObjects()

@@ -7,10 +7,12 @@ and may not be redistributed without written permission.*/
 #include <stdio.h>
 #include <string>
 #include "Game.h"
+#include "Game2.h"
 #include "ObjectHandler.h"
 #include <iostream>
 #include <SDL_mixer.h>
 #include "AssetManager.h"
+#include "SceneManager.h"
 #include "Input.h"
 #include <SDL_ttf.h>
 
@@ -21,7 +23,6 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 std::shared_ptr<SDL_Renderer> renderer = NULL;
 
-Game* game;
 EngineCore::ObjectHandler* handler;
 EngineCore::AssetManager* aManager;
 EngineCore::Input* input;
@@ -95,8 +96,8 @@ void Close()
 }
 
 void Tick() {
+    EngineCore::SceneManager::Tick();
     handler->Tick();
-    game->Tick();
 }
 
 void Input(SDL_Event& e) {
@@ -108,7 +109,7 @@ void Render() {
     SDL_RenderClear(renderer.get());
 
     handler->Render();
-    game->Render();
+    EngineCore::SceneManager::Render(renderer.get());
     handler->RenderUI();
     //Clear screen
 
@@ -129,12 +130,15 @@ int main(int argc, char* args[]) {
         SDL_Event e;
 
         //Get reference to singletons
-        game = Game::GetInstance(renderer);
         handler = EngineCore::ObjectHandler::GetInstance(renderer);
         aManager = EngineCore::AssetManager::GetInstance (renderer);
         input = EngineCore::Input::GetInstance();
 
-        if (game->Start()) {
+        EngineCore::SceneManager::CacheScene("Game", new Game());
+        EngineCore::SceneManager::CacheScene("Game2", new Game2());
+
+        if (EngineCore::SceneManager::LoadScene("Game")) {
+            std::cout << "Loaded default scene. Started Game\n";
             //While application is running
             while (!quit)
             {

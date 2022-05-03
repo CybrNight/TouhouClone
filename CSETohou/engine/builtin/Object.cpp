@@ -1,5 +1,6 @@
 #include "Object.h"
 #include "ObjectHandler.h"
+#include <iostream>
 
 Object::Object(Tag tag) {
 	this->tag = tag;
