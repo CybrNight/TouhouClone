@@ -6,6 +6,7 @@
 namespace UI {
     class UILabel : public virtual UIObject
     {
+        bool update = false;
     protected:
         std::string text;
         TTF_Font* font;

@@ -23,17 +23,22 @@ namespace UI {
         this->text = text;
 
         font = TTF_OpenFont("resource/font/font2.ttf", 26);
+        SetText(text);
     }
 
     void UILabel::Tick() {
-
+        if (update) {
+            SDL_Color color = { 255, 255, 255 };
+            SDL_DestroyTexture(textTexture);
+            SDL_FreeSurface(surface);
+            surface = TTF_RenderText_Blended(font, text.c_str(), color);
+            textTexture = SDL_CreateTextureFromSurface(EngineCore::ObjectHandler::GetInstance()->GetRenderer(), surface);
+            update = false;
+        }
     }
 
     void UILabel::SetText(std::string text) {
-        SDL_Color color = { 255, 255, 255 };
-        SDL_DestroyTexture(textTexture);
-        SDL_FreeSurface(surface);
-        surface = TTF_RenderText_Blended(font, text.c_str(), color);
-        textTexture = SDL_CreateTextureFromSurface(EngineCore::ObjectHandler::GetInstance()->GetRenderer(), surface);
+        this->text = text;
+        update = true;
     }
 }
