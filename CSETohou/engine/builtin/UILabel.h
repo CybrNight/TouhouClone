@@ -2,6 +2,7 @@
 #include <string>
 #include "UIObject.h"
 #include <SDL_ttf.h>
+#include <iostream>
 
 namespace UI {
     class UILabel : public virtual UIObject

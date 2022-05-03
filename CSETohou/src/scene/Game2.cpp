@@ -25,7 +25,7 @@ void Game2::Tick() {
     Input* input = Input::GetInstance();
 
     if (input->GetKeyDown(SDL_SCANCODE_RETURN)) {
-        SceneManager::LoadScene("Game2");
+        SceneManager::LoadScene("Game");
     }
 
     //volumeLabel->SetText("Volume:" + std::to_string(volume));

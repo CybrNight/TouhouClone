@@ -21,7 +21,8 @@ namespace CybrEngine {
                   {SDL_SCANCODE_LSHIFT, 0},
                   {SDL_SCANCODE_MINUS, 0},
                   {SDL_SCANCODE_EQUALS, 0},
-                  {SDL_SCANCODE_RETURN, 0} };
+                  {SDL_SCANCODE_RETURN, 0},
+                  {SDL_SCANCODE_LCTRL, 0} };
         mouseButtons = new int[3];
     }
 

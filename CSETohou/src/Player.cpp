@@ -97,6 +97,10 @@ void Player::Tick(){
         speed = 5;
     }
 
+    if (input.GetKeyDown(SDL_SCANCODE_LCTRL)) {
+        CybrEngine::SceneManager::LoadScene("Game2");
+    }
+
     if (keysDown[0] == false && keysDown[1] == false) velX = 0;
     if (keysDown[2] == false && keysDown[3] == false) velY = 0;
 
