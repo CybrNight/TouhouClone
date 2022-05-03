@@ -91,8 +91,6 @@ void Player::Tick(){
 
     if (input.GetKeyDown(SDL_SCANCODE_LSHIFT)) {
         speed = 2.5f;
-
-        EngineCore::SceneManager::LoadScene("Game");
     }
     
     if (input.GetKeyUp(SDL_SCANCODE_LSHIFT)) {
