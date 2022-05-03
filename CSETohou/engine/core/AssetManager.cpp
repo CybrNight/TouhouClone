@@ -67,23 +67,24 @@ namespace CybrEngine {
             }
         }
 
-        return NULL;
+        return nullptr;
     }
 
-    Mix_Music* AssetManager::GetCachedMusic(std::string musicName, std::string format) {
+    std::shared_ptr<Mix_Music> AssetManager::GetCachedMusic(std::string musicName, std::string format) {
         auto temp = musicCache.find(musicName);
-        Mix_Music* tempMusic = NULL;
         if (temp != musicCache.end()) {
             std::cout << "AssetManager: Retrieved " << musicName << " from musicCache\n";
-            tempMusic = (*temp).second;
+            return (*temp).second;
         }
         else {
             std::cout << "AssetManager: Did not find music (" << musicName << ") in musicCache\n";
-            tempMusic = LoadMusic(musicName);
-            musicCache.insert(std::make_pair(musicName, tempMusic));
-            std::cout << "AssetManager: Added music (" << musicName << ") to musicCache\n";
+            if (CacheMusic(musicName)) {
+                GetCachedMusic(musicName);
+            }
+            else {
+                std::cout << "AssetManager: Failed to add music (" << musicName << ") to musicCache\n";
+            }
         }
-        return tempMusic;
     }
 
     Mix_Chunk* AssetManager::GetCachedSFX(std::string sfxName) {
@@ -96,7 +97,7 @@ namespace CybrEngine {
 
         std::shared_ptr<SDL_Texture> temp = std::shared_ptr<SDL_Texture>(LoadSprite(sprName), SDL_DestroyTexture);
 
-        if (temp == NULL) {
+        if (temp == nullptr) {
             std::cout << "AssetManager: Failed to load sprite (" << sprName << ")\n";
             return false;
         }
@@ -109,12 +110,14 @@ namespace CybrEngine {
 
     bool AssetManager::CacheMusic(std::string musicName, std::string format) {
         std::cout << "AssetManager: Initializing music (" << musicName << ")\n";
-        Mix_Music* tempMusic = LoadMusic(musicName, format);
-        if (tempMusic == NULL) {
+        
+        std::shared_ptr<Mix_Music> temp = std::shared_ptr<Mix_Music>(LoadMusic(musicName, format), Mix_FreeMusic);
+        if (temp == NULL) {
+            std::cout << "AssetManager: Failed to load music (" << musicName << ")\n";
             return false;
         }
 
-        musicCache.insert(std::make_pair(musicName, tempMusic));
+        musicCache.insert(std::make_pair(musicName, temp));
         std::cout << "AssetManager: Added sprite (" << musicName << ") to spriteCache\n";
         return true;
     }

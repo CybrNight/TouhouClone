@@ -21,7 +21,7 @@ class Game: public virtual Scene {
     SDL_FRect down{ MAX_X, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
     std::shared_ptr<UI::UILabel> volumeLabel = nullptr;
-    Mix_Music* music = nullptr;
+    std::shared_ptr<Mix_Music> music = nullptr;
 
 
 public:

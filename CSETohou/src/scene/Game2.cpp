@@ -41,10 +41,10 @@ void Game2::Render(SDL_Renderer* renderer) {
 
 bool Game2::Start() {
     CybrEngine::ObjectHandler* oHandler = CybrEngine::ObjectHandler::GetInstance();
-    Mix_Music* music = AssetManager::GetInstance()->GetCachedMusic("bgmtitle");
+    std::shared_ptr<Mix_Music> music = AssetManager::GetInstance()->GetCachedMusic("bgmtitle");
 
     if (Mix_PlayingMusic() == 0) {
-        Mix_PlayMusic(music, -1);
+        Mix_PlayMusic(music.get(), -1);
         Mix_VolumeMusic(volume);
 
         std::cout << "Game2: start()\n";

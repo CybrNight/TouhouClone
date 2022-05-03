@@ -19,8 +19,8 @@ namespace CybrEngine {
 
         //Maps that pair the name of the 
         std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> spriteCache;
-        std::unordered_map<std::string, Mix_Music*> musicCache;
-        std::unordered_map<std::string, Mix_Chunk*> sfxCache;
+        std::unordered_map<std::string, std::shared_ptr<Mix_Music>> musicCache;
+        std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>> sfxCache;
 
         SDL_Texture* LoadSprite(std::string sprName);
         Mix_Music* LoadMusic(std::string musicName, std::string format = "ogg");
@@ -51,7 +51,7 @@ namespace CybrEngine {
         /// <param name="musicName"></param>
         /// <param name="format"></param>
         /// <returns></returns>
-        Mix_Music* GetCachedMusic(std::string musicName, std::string format = "ogg");
+        std::shared_ptr<Mix_Music> GetCachedMusic(std::string musicName, std::string format = "ogg");
 
         /// <summary>
         /// Retrieve pre-loaded music from memory

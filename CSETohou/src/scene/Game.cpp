@@ -58,7 +58,7 @@ bool Game::Start() {
     music = CybrEngine::AssetManager::GetInstance()->GetCachedMusic("bgm01");
 
     if (Mix_PlayingMusic() == 0) {
-        Mix_PlayMusic(music, -1);
+        Mix_PlayMusic(music.get(), -1);
         Mix_VolumeMusic(volume);
 
         std::cout << "Game: start()\n";
