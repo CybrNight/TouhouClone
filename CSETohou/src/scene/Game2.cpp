@@ -41,10 +41,9 @@ void Game2::Render(SDL_Renderer* renderer) {
 
 bool Game2::Start() {
     CybrEngine::ObjectHandler* oHandler = CybrEngine::ObjectHandler::GetInstance();
-    std::shared_ptr<Mix_Music> music = AssetManager::GetInstance()->GetCachedMusic("bgmtitle");
 
     if (Mix_PlayingMusic() == 0) {
-        Mix_PlayMusic(music.get(), -1);
+        Mix_PlayMusic(AssetManager::GetInstance()->GetCachedMusic("bgm02").get(), -1);
         Mix_VolumeMusic(volume);
 
         std::cout << "Game2: start()\n";
@@ -63,7 +62,7 @@ bool Game2::LoadSceneAssets()
     check -= temp->CacheSprite("sprEnemy");
     check -= temp->CacheSprite("sprTrishotEnemy");
     check -= temp->CacheSprite("sprBurstEnemy");
-    check -= temp->CacheMusic("bgmtitle", "ogg");
+    check -= temp->CacheMusic("bgm02", "ogg");
 
     return check != 0;
 }

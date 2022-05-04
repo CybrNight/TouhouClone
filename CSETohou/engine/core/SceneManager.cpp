@@ -26,6 +26,7 @@ namespace CybrEngine {
             return false;
         }
         scenes.insert(std::make_pair(name, scene));
+        return true;
     }
 
 
@@ -45,6 +46,7 @@ namespace CybrEngine {
             handler->DestroyAll();
             return temp->Init();
         }
+        return false;
     }
 
     void SceneManager::Tick() {

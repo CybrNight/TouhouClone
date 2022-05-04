@@ -85,6 +85,7 @@ namespace CybrEngine {
                 std::cout << "AssetManager: Failed to add music (" << musicName << ") to musicCache\n";
             }
         }
+        return nullptr;
     }
 
     Mix_Chunk* AssetManager::GetCachedSFX(std::string sfxName) {
