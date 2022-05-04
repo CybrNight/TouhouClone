@@ -195,7 +195,9 @@ namespace CybrEngine {
 
     void ObjectHandler::DestroyAll()
     {
-        destroyAll = true;
+        objectProcessQueue.clear();
+        gameObjectList.clear();
+        uiObjectList.clear();
     }
 
     void ObjectHandler::CreateAllQueuedObjects()
