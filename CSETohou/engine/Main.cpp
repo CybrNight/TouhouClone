@@ -167,7 +167,7 @@ int main(int argc, char* args[]) {
 
                 float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
                 //Cap to 60FPS
-                SDL_Delay((Uint32)floor(16.666f - elapsedMS));
+//                SDL_Delay((Uint32)floor(16.666f - elapsedMS));
                 Time::DELTA_TIME = floor(16.666f - elapsedMS) / 1000;
                 Time::SECOND = Time::FRAMERATE;
             }
