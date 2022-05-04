@@ -1,7 +1,5 @@
-/*This source code copyrighted by Lazy Foo' Productions (2004-2022)
-and may not be redistributed without written permission.*/
-
-//Using SDL, SDL_image, standard IO, and strings
+//CybrEngine (C) Nathan Estrada 2022
+//DO NOT REDISTRIBUTE
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
@@ -167,7 +165,7 @@ int main(int argc, char* args[]) {
 
                 float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
                 //Cap to 60FPS
-//                SDL_Delay((Uint32)floor(16.666f - elapsedMS));
+                SDL_Delay((Uint32)floor(16.666f - elapsedMS));
                 Time::DELTA_TIME = floor(16.666f - elapsedMS) / 1000;
                 Time::SECOND = Time::FRAMERATE;
             }

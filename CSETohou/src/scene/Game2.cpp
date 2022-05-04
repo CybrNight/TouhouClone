@@ -33,7 +33,7 @@ void Game2::Tick() {
 }
 
 void Game2::Render(SDL_Renderer* renderer) {
-    SDL_RenderCopy(renderer, background.get(), &drawRect, &boundsRect);
+    //SDL_RenderCopy(renderer, background.get(), &drawRect, &boundsRect);
     SDL_SetRenderDrawColor(renderer, 79, 0, 129, 128);
     SDL_RenderFillRectF(renderer, &left);
     SDL_RenderFillRectF(renderer, &right);
