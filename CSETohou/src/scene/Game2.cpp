@@ -43,11 +43,12 @@ bool Game2::Start() {
     CybrEngine::ObjectHandler* oHandler = CybrEngine::ObjectHandler::GetInstance();
 
     if (Mix_PlayingMusic() == 0) {
-        Mix_PlayMusic(AssetManager::GetInstance()->GetCachedMusic("bgm02").get(), -1);
+        Mix_PlayMusic(AssetManager::GetInstance()->GetCachedMusic("bgmtitle").get(), -1);
         Mix_VolumeMusic(volume);
 
         std::cout << "Game2: start()\n";
-        volumeLabel = std::dynamic_pointer_cast<UILabel>(oHandler->Instantiate(new UILabel(GAME_WIDTH/2 - 64, GAME_HEIGHT / 2 - 16, 128, 32, "GLORIUS GAME!")));
+        volumeLabel = std::dynamic_pointer_cast<UILabel>(oHandler->Instantiate(new UILabel(GAME_WIDTH/2 - 64, GAME_HEIGHT / 2 - 16, 256, 32, "GLORIOUS GAME!")));
+        oHandler->Instantiate(new UILabel(GAME_WIDTH / 2 - 64, GAME_HEIGHT / 2 + 32, 256, 32, "No segfault PLS"));
 
     }
     return true;
@@ -62,7 +63,7 @@ bool Game2::LoadSceneAssets()
     check -= temp->CacheSprite("sprEnemy");
     check -= temp->CacheSprite("sprTrishotEnemy");
     check -= temp->CacheSprite("sprBurstEnemy");
-    check -= temp->CacheMusic("bgm02", "ogg");
+    check -= temp->CacheMusic("bgmtitle", "ogg");
 
     return check != 0;
 }
