@@ -29,8 +29,6 @@ namespace UI {
     void UILabel::Tick() {
         if (update) {
             SDL_Color color = { 255, 255, 255 };
-            SDL_DestroyTexture(textTexture);
-            SDL_FreeSurface(surface);
             surface = TTF_RenderText_Blended(font, text.c_str(), color);
             textTexture = SDL_CreateTextureFromSurface(CybrEngine::ObjectHandler::GetInstance()->GetRenderer(), surface);
             update = false;
