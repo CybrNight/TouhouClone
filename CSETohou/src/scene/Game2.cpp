@@ -33,7 +33,10 @@ void Game2::Tick() {
 
 void Game2::Render(SDL_Renderer* renderer) {
 <<<<<<< HEAD
+<<<<<<< HEAD
     //SDL_RenderCopy(renderer, background.get(), &drawRect, &boundsRect);
+=======
+>>>>>>> parent of 1877e71 (added Background image)
 =======
 >>>>>>> parent of 1877e71 (added Background image)
     SDL_SetRenderDrawColor(renderer, 79, 0, 129, 128);
